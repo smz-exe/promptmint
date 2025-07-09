@@ -2,19 +2,165 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-    provider  = "postgresql"
-    url       = env("DATABASE_URL")
-    directUrl = env("DIRECT_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 model User {
-    id        String   @id @default(uuid())
-    email     String   @unique
-    name      String?
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  email       String   @unique
+  username    String   @unique
+  displayName String   @map("display_name")
+  bio         String?  @db.Text
+  avatarUrl   String?  @map("avatar_url")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  promptCards PromptCard[]
+  likes       Like[]
+  comments    Comment[]
+  reports     Report[]
+
+  @@map("users")
+}
+
+model Category {
+  id          String  @id @default(uuid())
+  name        String  @unique
+  slug        String  @unique
+  description String?
+  order       Int     @default(0)
+
+  // Relations
+  promptCards PromptCard[]
+
+  @@map("categories")
+}
+
+model AIModel {
+  id          String @id @default(uuid())
+  name        String @unique
+  slug        String @unique
+  displayName String @map("display_name")
+  order       Int    @default(0)
+
+  // Relations
+  promptCards PromptCard[]
+
+  @@map("ai_models")
+}
+
+model PromptCard {
+  id             String   @id @default(uuid())
+  title          String   @db.VarChar(200)
+  description    String   @db.Text
+  promptText     String   @map("prompt_text") @db.Text
+  categoryId     String   @map("category_id")
+  aiModelId      String   @map("ai_model_id")
+  authorId       String   @map("author_id")
+  likesCount     Int      @default(0) @map("likes_count")
+  forkCount      Int      @default(0) @map("fork_count")
+  commentCount   Int      @default(0) @map("comment_count")
+  parentPromptId String?  @map("parent_prompt_id")
+  version        Int      @default(1)
+  rarity         Rarity   @default(BRONZE)
+  isDeleted      Boolean  @default(false) @map("is_deleted")
+  createdAt      DateTime @default(now()) @map("created_at")
+  updatedAt      DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  author       User         @relation(fields: [authorId], references: [id])
+  category     Category     @relation(fields: [categoryId], references: [id])
+  aiModel      AIModel      @relation(fields: [aiModelId], references: [id])
+  parentPrompt PromptCard?  @relation("PromptForks", fields: [parentPromptId], references: [id])
+  forks        PromptCard[] @relation("PromptForks")
+  likes        Like[]
+  comments     Comment[]
+  reports      Report[]
+
+  @@index([categoryId])
+  @@index([aiModelId])
+  @@index([authorId])
+  @@index([createdAt(sort: Desc)])
+  @@index([likesCount(sort: Desc)])
+  @@map("prompt_cards")
+}
+
+model Like {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  promptCardId String   @map("prompt_card_id")
+  createdAt    DateTime @default(now()) @map("created_at")
+
+  // Relations
+  user       User       @relation(fields: [userId], references: [id])
+  promptCard PromptCard @relation(fields: [promptCardId], references: [id])
+
+  @@unique([userId, promptCardId])
+  @@index([promptCardId])
+  @@map("likes")
+}
+
+model Comment {
+  id           String   @id @default(uuid())
+  userId       String   @map("user_id")
+  promptCardId String   @map("prompt_card_id")
+  content      String   @db.Text
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  // Relations
+  user       User       @relation(fields: [userId], references: [id])
+  promptCard PromptCard @relation(fields: [promptCardId], references: [id])
+
+  @@index([promptCardId])
+  @@map("comments")
+}
+
+model Report {
+  id           String       @id @default(uuid())
+  userId       String       @map("user_id")
+  promptCardId String       @map("prompt_card_id")
+  reason       ReportReason
+  description  String?      @db.Text
+  status       ReportStatus @default(PENDING)
+  createdAt    DateTime     @default(now()) @map("created_at")
+  resolvedAt   DateTime?    @map("resolved_at")
+
+  // Relations
+  user       User       @relation(fields: [userId], references: [id])
+  promptCard PromptCard @relation(fields: [promptCardId], references: [id])
+
+  @@index([status])
+  @@index([createdAt])
+  @@map("reports")
+}
+
+// Enums
+enum Rarity {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+}
+
+enum ReportReason {
+  INAPPROPRIATE_CONTENT
+  SPAM
+  COPYRIGHT_VIOLATION
+  MALICIOUS_PROMPT
+  OTHER
+}
+
+enum ReportStatus {
+  PENDING
+  REVIEWED
+  RESOLVED
+  DISMISSED
 }
