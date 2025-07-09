@@ -18,10 +18,13 @@ import { toast } from "sonner";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader } from "~/components/ui/card";
 import { RarityBadge } from "~/components/cards/RarityBadge";
+import { ForkButton } from "~/components/cards/ForkButton";
+import { ForkHistory } from "~/components/cards/ForkHistory";
 import { CommentList } from "~/components/comments/CommentList";
 import { CommentForm } from "~/components/comments/CommentForm";
 import { api } from "~/trpc/react";
 import { useAuth } from "~/lib/hooks/useAuth";
+import { ErrorBoundary } from "~/components/error/ErrorBoundary";
 
 // Temporary date formatting function
 const formatDistanceToNow = (date: Date): string => {
@@ -333,14 +336,9 @@ export default function CardDetailPage() {
                 </Button>
 
                 {user && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="flex items-center gap-2"
-                  >
-                    <GitBranch className="h-4 w-4" />
-                    Fork
-                  </Button>
+                  <ErrorBoundary level="component">
+                    <ForkButton card={card} />
+                  </ErrorBoundary>
                 )}
 
                 <Button
@@ -355,6 +353,15 @@ export default function CardDetailPage() {
           </CardContent>
         </Card>
 
+        {/* Fork History */}
+        <ErrorBoundary level="component">
+          <ForkHistory
+            cardId={cardId}
+            parentPrompt={card.parentPrompt}
+            forkCount={card.forkCount}
+          />
+        </ErrorBoundary>
+
         {/* Comments Section */}
         <Card>
           <CardHeader>
@@ -363,29 +370,31 @@ export default function CardDetailPage() {
             </h3>
           </CardHeader>
           <CardContent>
-            {user ? (
-              <div className="space-y-6">
-                <CommentForm promptCardId={cardId} />
-                <CommentList promptCardId={cardId} />
-              </div>
-            ) : (
-              <div className="mb-6">
-                <p className="text-muted-foreground mb-4 text-sm">
-                  Sign in to leave a comment or like this card.
-                </p>
-                <div className="flex gap-2">
-                  <Button asChild variant="outline">
-                    <Link href="/sign-in">Sign In</Link>
-                  </Button>
-                  <Button asChild>
-                    <Link href="/sign-up">Sign Up</Link>
-                  </Button>
-                </div>
-                <div className="mt-6">
+            <ErrorBoundary level="component">
+              {user ? (
+                <div className="space-y-6">
+                  <CommentForm promptCardId={cardId} />
                   <CommentList promptCardId={cardId} />
                 </div>
-              </div>
-            )}
+              ) : (
+                <div className="mb-6">
+                  <p className="text-muted-foreground mb-4 text-sm">
+                    Sign in to leave a comment or like this card.
+                  </p>
+                  <div className="flex gap-2">
+                    <Button asChild variant="outline">
+                      <Link href="/sign-in">Sign In</Link>
+                    </Button>
+                    <Button asChild>
+                      <Link href="/sign-up">Sign Up</Link>
+                    </Button>
+                  </div>
+                  <div className="mt-6">
+                    <CommentList promptCardId={cardId} />
+                  </div>
+                </div>
+              )}
+            </ErrorBoundary>
           </CardContent>
         </Card>
       </div>

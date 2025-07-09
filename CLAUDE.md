@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a T3 Stack application for an AI Prompt Trading Card Platform - a web app where users can share AI prompts in a visual trading card format. The project is built with Next.js 15 (App Router), TypeScript, tRPC, Prisma, Tailwind CSS, and uses Supabase for authentication and database.
 
-**Current Status**: Phase 4 completed - Individual card views, user profiles, navigation header, and comment system fully implemented. Ready for fork functionality and advanced features.
+**Current Status**: Phase 6 partially completed - Fork functionality, settings page, and error boundaries implemented. Ready for advanced search and report system.
 
 ## Essential Development Commands
 
@@ -61,7 +61,7 @@ This is a T3 Stack application for an AI Prompt Trading Card Platform - a web ap
 Current routers in `src/server/api/routers/`:
 
 - **auth**: User authentication (signUp, signIn, signOut, getCurrentUser)
-- **promptCard**: CRUD operations, feed with pagination, search
+- **promptCard**: CRUD operations, feed with pagination, search, getForks endpoint
 - **like**: Toggle likes, get liked cards, optimistic updates
 - **comment**: CRUD for comments with pagination
 - **user**: Profile management, user search, favorite cards
@@ -74,7 +74,7 @@ Each router includes proper Zod validation and TypeScript types from Prisma.
 **Core Models**:
 
 - **User**: Authentication, profile (username, displayName, bio, avatarUrl)
-- **PromptCard**: Trading cards with title, description, promptText, rarity system
+- **PromptCard**: Trading cards with title, description, promptText, rarity system, fork relationships
 - **Category**: Programming, Writing, Analysis, Learning, Creative, Others  
 - **AIModel**: Claude, GPT, Gemini, Others
 - **Like**: User-PromptCard many-to-many with timestamps
@@ -99,6 +99,11 @@ Each router includes proper Zod validation and TypeScript types from Prisma.
   - `FeedFilters`: Category, AI model, and search filtering
   - `PromptCardForm`: Validated form for card creation/editing
   - `RarityBadge`: Visual rarity indicators
+  - `ForkButton`: Fork creation with modal dialog
+  - `ForkHistory`: Parent/child relationship visualization
+  - `ProfileSettings`: User profile editing form
+  - `AccountSettings`: Account management and sign out
+  - `ErrorBoundary`: Error handling with recovery options
 
 ### Data Flow Patterns
 
@@ -134,17 +139,22 @@ Required environment variables (see `.env.example`):
 - **API**: All tRPC routers implemented with proper validation
 - **UI Components**: Trading card design, feed grid, forms, filters
 - **Core Pages**: Landing (`/`), feed (`/feed`), auth (`/sign-in`, `/sign-up`), card creation (`/cards/create`)
+- **Individual Pages**: Card details (`/cards/[id]`), user profiles (`/profile/[username]`), settings (`/settings`)
 - **Feed System**: Masonry layout with infinite scroll, filtering, and search
 - **Like System**: Optimistic updates with real-time count synchronization
 - **Rarity System**: Automatic calculation and visual indicators
+- **Fork System**: Complete fork/derivative functionality with lineage tracking
+- **Comment System**: Full CRUD with real-time updates and pagination
+- **Settings Management**: Profile editing and account management
+- **Error Handling**: Comprehensive error boundaries and recovery
 
 ### 🔄 Next Implementation Priority
 
-- Fork/derivative functionality UI
-- Advanced search and filtering
-- Settings page (`/settings`)
+- Advanced search and filtering (date range, rarity, likes)
+- Report/moderation system
+- Date formatting improvements (date-fns)
+- UX improvements (loading skeletons, breadcrumbs)
 - Real-time notifications
-- Performance optimizations
 
 ## Code Quality Standards
 

@@ -7,6 +7,7 @@ import { TRPCReactProvider } from "~/trpc/react";
 import { AuthProvider } from "~/lib/auth/context";
 import { Toaster } from "~/components/ui/sonner";
 import { Navigation } from "~/components/layout/Navigation";
+import { ErrorBoundary } from "~/components/error/ErrorBoundary";
 
 export const metadata: Metadata = {
   title: "AI Prompt Trading Cards",
@@ -28,7 +29,7 @@ export default function RootLayout({
         <TRPCReactProvider>
           <AuthProvider>
             <Navigation />
-            {children}
+            <ErrorBoundary level="page">{children}</ErrorBoundary>
             <Toaster />
           </AuthProvider>
         </TRPCReactProvider>

@@ -443,4 +443,32 @@ export const promptCardRouter = createTRPCRouter({
         nextCursor,
       };
     }),
+
+  getForks: publicProcedure
+    .input(z.object({ cardId: z.string().uuid() }))
+    .query(async ({ ctx, input }) => {
+      const { cardId } = input;
+
+      const forks = await ctx.db.promptCard.findMany({
+        where: {
+          parentPromptId: cardId,
+          isDeleted: false,
+        },
+        orderBy: { createdAt: "desc" },
+        include: {
+          author: {
+            select: {
+              id: true,
+              username: true,
+              displayName: true,
+              avatarUrl: true,
+            },
+          },
+          category: true,
+          aiModel: true,
+        },
+      });
+
+      return { forks };
+    }),
 });

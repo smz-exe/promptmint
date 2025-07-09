@@ -11,6 +11,7 @@ import { Card, CardContent } from "~/components/ui/card";
 import { PromptCard } from "~/components/cards/PromptCard";
 import { api } from "~/trpc/react";
 import { useAuth } from "~/lib/hooks/useAuth";
+import { ErrorBoundary } from "~/components/error/ErrorBoundary";
 
 // Temporary date formatting function
 const formatDate = (date: Date): string => {
@@ -206,82 +207,84 @@ export default function ProfilePage() {
         </div>
 
         {/* Cards Grid */}
-        <div className="space-y-8">
-          {isLoadingCards ? (
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-              {[...Array(6)].map((_, i) => (
-                <div key={i} className="animate-pulse">
-                  <div className="h-64 rounded-lg bg-gray-300"></div>
-                </div>
-              ))}
-            </div>
-          ) : currentCards.length === 0 ? (
-            <div className="py-12 text-center">
-              <p className="text-muted-foreground mb-4">
-                {activeTab === "cards"
-                  ? "No cards created yet"
-                  : "No liked cards yet"}
-              </p>
-              {isOwnProfile && activeTab === "cards" && (
-                <Button asChild>
-                  <Link href="/cards/create">Create Your First Card</Link>
-                </Button>
-              )}
-            </div>
-          ) : (
-            <>
+        <ErrorBoundary level="component">
+          <div className="space-y-8">
+            {isLoadingCards ? (
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {currentCards.map((card) => (
-                  <PromptCard
-                    key={card.id}
-                    card={{
-                      ...card,
-                      isLikedByUser:
-                        activeTab === "liked"
-                          ? true
-                          : "isLikedByUser" in card
-                            ? Boolean(card.isLikedByUser)
-                            : false,
-                    }}
-                    onClick={() => {
-                      window.location.href = `/cards/${card.id}`;
-                    }}
-                  />
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="animate-pulse">
+                    <div className="h-64 rounded-lg bg-gray-300"></div>
+                  </div>
                 ))}
               </div>
-
-              {/* Load More Button */}
-              {((activeTab === "cards" && hasNextUserCards) ||
-                (activeTab === "liked" && hasNextLikedCards)) && (
-                <div className="text-center">
-                  <Button
-                    variant="outline"
-                    onClick={() => {
-                      if (activeTab === "cards") {
-                        void fetchNextUserCards();
-                      } else {
-                        void fetchNextLikedCards();
-                      }
-                    }}
-                    disabled={
-                      activeTab === "cards"
-                        ? isFetchingNextUserCards
-                        : isFetchingNextLikedCards
-                    }
-                  >
-                    {(
-                      activeTab === "cards"
-                        ? isFetchingNextUserCards
-                        : isFetchingNextLikedCards
-                    )
-                      ? "Loading..."
-                      : "Load More"}
+            ) : currentCards.length === 0 ? (
+              <div className="py-12 text-center">
+                <p className="text-muted-foreground mb-4">
+                  {activeTab === "cards"
+                    ? "No cards created yet"
+                    : "No liked cards yet"}
+                </p>
+                {isOwnProfile && activeTab === "cards" && (
+                  <Button asChild>
+                    <Link href="/cards/create">Create Your First Card</Link>
                   </Button>
+                )}
+              </div>
+            ) : (
+              <>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {currentCards.map((card) => (
+                    <PromptCard
+                      key={card.id}
+                      card={{
+                        ...card,
+                        isLikedByUser:
+                          activeTab === "liked"
+                            ? true
+                            : "isLikedByUser" in card
+                              ? Boolean(card.isLikedByUser)
+                              : false,
+                      }}
+                      onClick={() => {
+                        window.location.href = `/cards/${card.id}`;
+                      }}
+                    />
+                  ))}
                 </div>
-              )}
-            </>
-          )}
-        </div>
+
+                {/* Load More Button */}
+                {((activeTab === "cards" && hasNextUserCards) ||
+                  (activeTab === "liked" && hasNextLikedCards)) && (
+                  <div className="text-center">
+                    <Button
+                      variant="outline"
+                      onClick={() => {
+                        if (activeTab === "cards") {
+                          void fetchNextUserCards();
+                        } else {
+                          void fetchNextLikedCards();
+                        }
+                      }}
+                      disabled={
+                        activeTab === "cards"
+                          ? isFetchingNextUserCards
+                          : isFetchingNextLikedCards
+                      }
+                    >
+                      {(
+                        activeTab === "cards"
+                          ? isFetchingNextUserCards
+                          : isFetchingNextLikedCards
+                      )
+                        ? "Loading..."
+                        : "Load More"}
+                    </Button>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        </ErrorBoundary>
       </div>
     </div>
   );

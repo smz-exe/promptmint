@@ -3,6 +3,7 @@ import { cn } from "~/lib/utils";
 
 interface RarityBadgeProps {
   rarity: Rarity;
+  size?: "sm" | "md";
   className?: string;
 }
 
@@ -33,19 +34,39 @@ const rarityConfig = {
   },
 } as const;
 
-export function RarityBadge({ rarity, className }: RarityBadgeProps) {
+export function RarityBadge({
+  rarity,
+  size = "md",
+  className,
+}: RarityBadgeProps) {
   const config = rarityConfig[rarity];
+
+  const sizeClasses = {
+    sm: "px-1.5 py-0.5 text-xs",
+    md: "px-2 py-1 text-xs",
+  };
+
+  const dotSizeClasses = {
+    sm: "mr-0.5 h-1.5 w-1.5",
+    md: "mr-1 h-2 w-2",
+  };
 
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border px-2 py-1 text-xs font-semibold shadow-lg",
+        "inline-flex items-center rounded-full border font-semibold shadow-lg",
+        sizeClasses[size],
         config.className,
         config.glowClass,
         className,
       )}
     >
-      <div className="mr-1 h-2 w-2 rounded-full bg-current opacity-75" />
+      <div
+        className={cn(
+          "rounded-full bg-current opacity-75",
+          dotSizeClasses[size],
+        )}
+      />
       {config.label}
     </div>
   );

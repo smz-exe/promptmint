@@ -302,6 +302,61 @@ import { PromptCardForm } from "~/components/forms/PromptCardForm"
 />
 ```
 
+### Fork Components
+
+```tsx
+import { ForkButton } from "~/components/cards/ForkButton"
+import { ForkDialog } from "~/components/cards/ForkDialog"
+import { ForkHistory } from "~/components/cards/ForkHistory"
+
+// 使用例
+<ForkButton card={card} />
+
+<ForkHistory
+  cardId={cardId}
+  parentPrompt={card.parentPrompt}
+  forkCount={card.forkCount}
+/>
+```
+
+### Settings Components
+
+```tsx
+import { ProfileSettings } from "~/components/settings/ProfileSettings"
+import { AccountSettings } from "~/components/settings/AccountSettings"
+
+// 使用例
+<ProfileSettings user={currentUser} />
+<AccountSettings user={currentUser} />
+```
+
+### Error Boundary
+
+```tsx
+import { ErrorBoundary } from "~/components/error/ErrorBoundary"
+
+// ページレベルのエラーハンドリング
+<ErrorBoundary level="page">
+  {children}
+</ErrorBoundary>
+
+// コンポーネントレベルのエラーハンドリング
+<ErrorBoundary level="component">
+  <SomeComponent />
+</ErrorBoundary>
+
+// カスタムフォールバックUI
+<ErrorBoundary
+  fallback={<div>カスタムエラー表示</div>}
+  onError={(error, errorInfo) => {
+    // カスタムエラーロギング
+    console.error("Custom error handler:", error, errorInfo)
+  }}
+>
+  <SomeComponent />
+</ErrorBoundary>
+```
+
 ## 🎨 アイコン使用例
 
 ```tsx

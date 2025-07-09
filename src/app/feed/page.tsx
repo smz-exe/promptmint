@@ -7,6 +7,7 @@ import { Button } from "~/components/ui/button";
 import { FeedGrid } from "~/components/feed/FeedGrid";
 import { FeedFilters } from "~/components/feed/FeedFilters";
 import { useAuth } from "~/lib/hooks/useAuth";
+import { ErrorBoundary } from "~/components/error/ErrorBoundary";
 
 export default function FeedPage() {
   const { user } = useAuth();
@@ -52,16 +53,20 @@ export default function FeedPage() {
 
           {/* Filters */}
           <div className="mb-8">
-            <FeedFilters
-              onFilterChange={handleFilterChange}
-              onOrderChange={handleOrderChange}
-              currentFilter={filter}
-              currentOrder={orderBy}
-            />
+            <ErrorBoundary level="component">
+              <FeedFilters
+                onFilterChange={handleFilterChange}
+                onOrderChange={handleOrderChange}
+                currentFilter={filter}
+                currentOrder={orderBy}
+              />
+            </ErrorBoundary>
           </div>
 
           {/* Feed Grid */}
-          <FeedGrid filter={filter} orderBy={orderBy} />
+          <ErrorBoundary level="component">
+            <FeedGrid filter={filter} orderBy={orderBy} />
+          </ErrorBoundary>
         </div>
       </div>
     </div>
