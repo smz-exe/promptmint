@@ -6,6 +6,7 @@ import { Geist } from "next/font/google";
 import { TRPCReactProvider } from "~/trpc/react";
 import { AuthProvider } from "~/lib/auth/context";
 import { Toaster } from "~/components/ui/sonner";
+import { Navigation } from "~/components/layout/Navigation";
 
 export const metadata: Metadata = {
   title: "AI Prompt Trading Cards",
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body>
         <TRPCReactProvider>
           <AuthProvider>
+            <Navigation />
             {children}
             <Toaster />
           </AuthProvider>

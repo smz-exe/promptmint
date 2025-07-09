@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This is a T3 Stack application for an AI Prompt Trading Card Platform - a web app where users can share AI prompts in a visual trading card format. The project is built with Next.js 15 (App Router), TypeScript, tRPC, Prisma, Tailwind CSS, and uses Supabase for authentication and database.
 
-**Current Status**: 3-week prototype completed with functional feed, authentication, and card creation. Ready for individual card views and user profiles.
+**Current Status**: Phase 4 completed - Individual card views, user profiles, navigation header, and comment system fully implemented. Ready for fork functionality and advanced features.
 
 ## Essential Development Commands
 
@@ -48,8 +48,8 @@ This is a T3 Stack application for an AI Prompt Trading Card Platform - a web ap
 
 ### Key Directories
 
-- `src/app/` - Next.js App Router pages (landing, feed, auth, card creation)
-- `src/components/` - Organized by feature: cards/, feed/, forms/, ui/
+- `src/app/` - Next.js App Router pages (landing, feed, auth, card creation, individual cards, profiles)
+- `src/components/` - Organized by feature: cards/, feed/, forms/, ui/, layout/, comments/
 - `src/server/api/routers/` - tRPC routers for each domain
 - `src/lib/` - Utilities including Supabase clients and auth hooks
 - `src/trpc/` - tRPC client configuration
@@ -140,11 +140,11 @@ Required environment variables (see `.env.example`):
 
 ### 🔄 Next Implementation Priority
 
-- Individual card view pages (`/cards/[id]`)
-- User profile pages (`/profile/[username]`)
-- Navigation header with user menu
-- Comment system UI
-- Fork/derivative functionality
+- Fork/derivative functionality UI
+- Advanced search and filtering
+- Settings page (`/settings`)
+- Real-time notifications
+- Performance optimizations
 
 ## Code Quality Standards
 

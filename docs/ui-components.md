@@ -8,6 +8,7 @@
 
 - **shadcn UI**: Radix UIとTailwind CSSベースのコンポーネントライブラリ
 - **Sonner**: トースト通知用ライブラリ（shadcn UIのtoastの代替）
+- **Lucide React**: アイコンライブラリ
 
 ## 📦 インストール済みコンポーネント
 
@@ -211,8 +212,192 @@ import { cn } from "~/lib/utils"
 </div>
 ```
 
+## 🧩 カスタムコンポーネント
+
+### Navigation
+
+```tsx
+import { Navigation } from "~/components/layout/Navigation"
+
+// 永続的なナビゲーションヘッダー
+// 自動的にlayout.tsxに組み込まれているため、個別にインポートする必要なし
+```
+
+### PromptCard
+
+```tsx
+import { PromptCard } from "~/components/cards/PromptCard"
+
+// 使用例
+<PromptCard
+  card={cardData}
+  onClick={() => router.push(`/cards/${cardData.id}`)}
+  showFullPrompt={false} // オプション: プロンプトの全文表示
+/>
+```
+
+### RarityBadge
+
+```tsx
+import { RarityBadge } from "~/components/cards/RarityBadge"
+
+// 使用例
+<RarityBadge rarity="GOLD" />
+<RarityBadge rarity="PLATINUM" />
+```
+
+### CommentList & CommentForm
+
+```tsx
+import { CommentList } from "~/components/comments/CommentList"
+import { CommentForm } from "~/components/comments/CommentForm"
+
+// 使用例
+<div className="space-y-6">
+  <CommentForm promptCardId={cardId} />
+  <CommentList promptCardId={cardId} />
+</div>
+
+// 編集モード
+<CommentForm
+  promptCardId={cardId}
+  isEditing={true}
+  editingCommentId={commentId}
+  initialContent={existingContent}
+  onSuccess={() => {}}
+  onCancel={() => {}}
+/>
+```
+
+### FeedGrid & FeedFilters
+
+```tsx
+import { FeedGrid } from "~/components/feed/FeedGrid"
+import { FeedFilters } from "~/components/feed/FeedFilters"
+
+// 使用例
+<FeedFilters
+  onFilterChange={setFilter}
+  onOrderChange={setOrderBy}
+  currentFilter={filter}
+  currentOrder={orderBy}
+/>
+
+<FeedGrid
+  filter={filter}
+  orderBy={orderBy}
+/>
+```
+
+### PromptCardForm
+
+```tsx
+import { PromptCardForm } from "~/components/forms/PromptCardForm"
+
+// 使用例
+<PromptCardForm
+  onSuccess={(card) => {
+    router.push(`/cards/${card.id}`)
+  }}
+/>
+```
+
+## 🎨 アイコン使用例
+
+```tsx
+import { Heart, MessageCircle, Copy, GitBranch, Share2, User, Settings } from "lucide-react"
+
+// 使用例
+<Button>
+  <Heart className="h-4 w-4 mr-2" />
+  Like
+</Button>
+
+<Button>
+  <MessageCircle className="h-4 w-4 mr-2" />
+  Comment
+</Button>
+```
+
+## 📱 レスポンシブデザイン
+
+すべてのコンポーネントはモバイルファーストのレスポンシブデザインを採用しています：
+
+```tsx
+// 例: グリッドレイアウト
+<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  {/* カード一覧 */}
+</div>
+
+// 例: ナビゲーション
+<div className="hidden md:flex">
+  {/* デスクトップ用ナビゲーション */}
+</div>
+<div className="md:hidden">
+  {/* モバイル用ナビゲーション */}
+</div>
+```
+
+## 🔄 データ取得パターン
+
+```tsx
+// 無限スクロールパターン
+const {
+  data,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  isLoading,
+} = api.promptCard.getFeed.useInfiniteQuery({
+  limit: 20,
+  filter,
+  orderBy,
+}, {
+  getNextPageParam: (lastPage) => lastPage.nextCursor,
+})
+
+// 楽観的更新パターン
+const likeMutation = api.like.toggle.useMutation({
+  onMutate: () => {
+    // 即座にUIを更新
+    setIsLiked(!isLiked)
+    setLikesCount(isLiked ? likesCount - 1 : likesCount + 1)
+  },
+  onSuccess: (data) => {
+    // サーバーレスポンスで正確な値に更新
+    setIsLiked(data.isLiked)
+    setLikesCount(data.likesCount)
+  },
+  onError: () => {
+    // エラー時は元の値に戻す
+    setIsLiked(originalIsLiked)
+    setLikesCount(originalLikesCount)
+  }
+})
+```
+
+## 🎯 アクセシビリティ
+
+- **キーボードナビゲーション**: すべてのインタラクティブ要素はキーボードでアクセス可能
+- **aria-labels**: スクリーンリーダー対応のラベル付け
+- **フォーカス管理**: 適切なフォーカスの順序と表示
+
+```tsx
+// 例: アクセシブルなボタン
+<Button
+  aria-label="Like this card"
+  onClick={handleLike}
+  disabled={isLoading}
+>
+  <Heart className="h-4 w-4" />
+  {likesCount}
+</Button>
+```
+
 ## 🔗 参考リンク
 
 - [shadcn UI Documentation](https://ui.shadcn.com/)
 - [Sonner Documentation](https://sonner.emilkowal.ski/)
 - [Radix UI Documentation](https://www.radix-ui.com/)
+- [Lucide React Icons](https://lucide.dev/)
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs)
