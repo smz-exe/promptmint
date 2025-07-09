@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { PromptCard } from "~/components/cards/PromptCard";
+import { FeedGridSkeleton } from "~/components/loading/FeedGridSkeleton";
 import { api } from "~/trpc/react";
 
 interface FeedGridProps {
@@ -68,15 +69,7 @@ export function FeedGrid({ filter, orderBy = "latest" }: FeedGridProps) {
   };
 
   if (isLoading) {
-    return (
-      <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <div key={i} className="animate-pulse">
-            <div className="bg-muted h-64 w-full rounded-lg"></div>
-          </div>
-        ))}
-      </div>
-    );
+    return <FeedGridSkeleton />;
   }
 
   if (error) {

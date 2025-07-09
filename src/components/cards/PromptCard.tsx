@@ -3,21 +3,6 @@
 import { useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-// import { formatDistanceToNow } from "date-fns";
-
-// Temporary date formatting function
-const formatDistanceToNow = (date: Date): string => {
-  const now = new Date();
-  const diff = now.getTime() - date.getTime();
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (days > 0) return `${days}d ago`;
-  if (hours > 0) return `${hours}h ago`;
-  if (minutes > 0) return `${minutes}m ago`;
-  return "just now";
-};
 import {
   Heart,
   MessageCircle,
@@ -32,6 +17,7 @@ import { Button } from "~/components/ui/button";
 import { RarityBadge } from "./RarityBadge";
 import { api } from "~/trpc/react";
 import { useAuth } from "~/lib/hooks/useAuth";
+import { formatDateSmart } from "~/lib/utils/dateUtils";
 import { cn } from "~/lib/utils";
 
 interface PromptCardProps {
@@ -241,12 +227,12 @@ export function PromptCard({
               {card.author.displayName}
             </Link>
             <span>•</span>
-            <span>{formatDistanceToNow(new Date(card.createdAt))}</span>
+            <span>{formatDateSmart(new Date(card.createdAt), "card")}</span>
           </div>
         </div>
 
-        <div className="mt-4 flex items-center justify-between">
-          <div className="flex items-center gap-4">
+        <div className="mt-4 flex flex-wrap items-center justify-between gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
             <Button
               variant="ghost"
               size="sm"
@@ -286,7 +272,7 @@ export function PromptCard({
             )}
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1 sm:gap-2">
             <Button
               variant="ghost"
               size="sm"
@@ -294,7 +280,7 @@ export function PromptCard({
               className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-xs"
             >
               <Copy className="h-4 w-4" />
-              Copy
+              <span className="hidden sm:inline">Copy</span>
             </Button>
 
             <Button
@@ -307,7 +293,7 @@ export function PromptCard({
               className="text-muted-foreground hover:text-foreground flex items-center gap-1 text-xs"
             >
               <ExternalLink className="h-4 w-4" />
-              View
+              <span className="hidden sm:inline">View</span>
             </Button>
           </div>
         </div>

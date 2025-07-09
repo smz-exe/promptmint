@@ -4,6 +4,7 @@ import { promptCardRouter } from "~/server/api/routers/promptCard";
 import { likeRouter } from "~/server/api/routers/like";
 import { commentRouter } from "~/server/api/routers/comment";
 import { metadataRouter } from "~/server/api/routers/metadata";
+import { reportRouter } from "~/server/api/routers/report";
 import { createCallerFactory, createTRPCRouter } from "~/server/api/trpc";
 
 /**
@@ -18,6 +19,7 @@ export const appRouter = createTRPCRouter({
   like: likeRouter,
   comment: commentRouter,
   metadata: metadataRouter,
+  report: reportRouter,
 });
 
 // export type definition of API

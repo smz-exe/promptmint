@@ -9,20 +9,7 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { RarityBadge } from "./RarityBadge";
 import { api } from "~/trpc/react";
-
-// Temporary date formatting function
-const formatDistanceToNow = (date: Date): string => {
-  const now = new Date();
-  const diff = now.getTime() - date.getTime();
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (days > 0) return `${days}d ago`;
-  if (hours > 0) return `${hours}h ago`;
-  if (minutes > 0) return `${minutes}m ago`;
-  return "just now";
-};
+import { formatDateSmart } from "~/lib/utils/dateUtils";
 
 interface ForkHistoryProps {
   cardId: string;
@@ -108,7 +95,10 @@ export function ForkHistory({
                     <>
                       <span>•</span>
                       <span>
-                        {formatDistanceToNow(new Date(parentPrompt.createdAt))}
+                        {formatDateSmart(
+                          new Date(parentPrompt.createdAt),
+                          "card",
+                        )}
                       </span>
                     </>
                   )}
@@ -187,7 +177,10 @@ export function ForkHistory({
                             </Link>
                             <span>•</span>
                             <span>
-                              {formatDistanceToNow(new Date(fork.createdAt))}
+                              {formatDateSmart(
+                                new Date(fork.createdAt),
+                                "card",
+                              )}
                             </span>
                           </div>
                         </div>

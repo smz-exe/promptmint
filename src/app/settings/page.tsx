@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { useAuth } from "~/lib/hooks/useAuth";
 import { ProfileSettings } from "~/components/settings/ProfileSettings";
 import { AccountSettings } from "~/components/settings/AccountSettings";
+import { SmartBreadcrumb } from "~/components/navigation/SmartBreadcrumb";
 import { api } from "~/trpc/react";
 
 type SettingsTab = "profile" | "account";
@@ -59,6 +60,8 @@ export default function SettingsPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
+        <SmartBreadcrumb />
+
         <h1 className="mb-8 text-2xl font-bold">Settings</h1>
 
         {/* Settings Tabs */}

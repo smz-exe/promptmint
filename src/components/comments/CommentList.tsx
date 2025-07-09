@@ -15,20 +15,7 @@ import {
 import { api } from "~/trpc/react";
 import { useAuth } from "~/lib/hooks/useAuth";
 import { CommentForm } from "./CommentForm";
-
-// Temporary date formatting function
-const formatDistanceToNow = (date: Date): string => {
-  const now = new Date();
-  const diff = now.getTime() - date.getTime();
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (days > 0) return `${days}d ago`;
-  if (hours > 0) return `${hours}h ago`;
-  if (minutes > 0) return `${minutes}m ago`;
-  return "just now";
-};
+import { formatDateSmart } from "~/lib/utils/dateUtils";
 
 interface CommentListProps {
   promptCardId: string;
@@ -129,7 +116,7 @@ export function CommentList({ promptCardId }: CommentListProps) {
                 {comment.user.displayName}
               </Link>
               <span className="text-muted-foreground text-sm">
-                {formatDistanceToNow(new Date(comment.createdAt))}
+                {formatDateSmart(new Date(comment.createdAt), "comment")}
               </span>
               {currentUser?.id === comment.user.id && (
                 <DropdownMenu>

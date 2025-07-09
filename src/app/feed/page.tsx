@@ -6,8 +6,10 @@ import { Plus } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import { FeedGrid } from "~/components/feed/FeedGrid";
 import { FeedFilters } from "~/components/feed/FeedFilters";
+import { AdvancedFilters } from "~/components/feed/AdvancedFilters";
 import { useAuth } from "~/lib/hooks/useAuth";
 import { ErrorBoundary } from "~/components/error/ErrorBoundary";
+import { SmartBreadcrumb } from "~/components/navigation/SmartBreadcrumb";
 
 export default function FeedPage() {
   const { user } = useAuth();
@@ -15,6 +17,11 @@ export default function FeedPage() {
     categoryId?: string;
     aiModelId?: string;
     search?: string;
+    dateFrom?: Date;
+    dateTo?: Date;
+    rarities?: ("BRONZE" | "SILVER" | "GOLD" | "PLATINUM")[];
+    minLikes?: number;
+    maxLikes?: number;
   }>({});
   const [orderBy, setOrderBy] = useState<"latest" | "popular">("latest");
 
@@ -26,10 +33,28 @@ export default function FeedPage() {
     setOrderBy(newOrder);
   };
 
+  const handleAdvancedFiltersChange = (advancedFilters: {
+    dateRange?: { from: Date; to: Date };
+    rarities?: ("BRONZE" | "SILVER" | "GOLD" | "PLATINUM")[];
+    minLikes?: number;
+    maxLikes?: number;
+  }) => {
+    setFilter((prevFilter) => ({
+      ...prevFilter,
+      dateFrom: advancedFilters.dateRange?.from,
+      dateTo: advancedFilters.dateRange?.to,
+      rarities: advancedFilters.rarities,
+      minLikes: advancedFilters.minLikes,
+      maxLikes: advancedFilters.maxLikes,
+    }));
+  };
+
   return (
     <div className="bg-background min-h-screen">
       <div className="container mx-auto px-4 py-8">
         <div className="mx-auto max-w-7xl">
+          <SmartBreadcrumb />
+
           {/* Header */}
           <div className="mb-8 flex items-center justify-between">
             <div>
@@ -52,7 +77,7 @@ export default function FeedPage() {
           </div>
 
           {/* Filters */}
-          <div className="mb-8">
+          <div className="mb-8 space-y-4">
             <ErrorBoundary level="component">
               <FeedFilters
                 onFilterChange={handleFilterChange}
@@ -60,6 +85,10 @@ export default function FeedPage() {
                 currentFilter={filter}
                 currentOrder={orderBy}
               />
+            </ErrorBoundary>
+
+            <ErrorBoundary level="component">
+              <AdvancedFilters onFiltersChange={handleAdvancedFiltersChange} />
             </ErrorBoundary>
           </div>
 

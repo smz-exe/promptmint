@@ -12,15 +12,8 @@ import { PromptCard } from "~/components/cards/PromptCard";
 import { api } from "~/trpc/react";
 import { useAuth } from "~/lib/hooks/useAuth";
 import { ErrorBoundary } from "~/components/error/ErrorBoundary";
-
-// Temporary date formatting function
-const formatDate = (date: Date): string => {
-  return new Intl.DateTimeFormat("en-US", {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  }).format(date);
-};
+import { SmartBreadcrumb } from "~/components/navigation/SmartBreadcrumb";
+import { formatJoinDate } from "~/lib/utils/dateUtils";
 
 type TabType = "cards" | "liked";
 
@@ -118,6 +111,15 @@ export default function ProfilePage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
+        <SmartBreadcrumb
+          customItems={[
+            {
+              label: profileData.displayName ?? profileData.username,
+              href: undefined,
+            },
+          ]}
+        />
+
         {/* Profile Header */}
         <div className="mb-8">
           <div className="mb-6 flex items-start gap-6">
@@ -151,7 +153,7 @@ export default function ProfilePage() {
               <div className="text-muted-foreground flex items-center gap-4 text-sm">
                 <div className="flex items-center gap-1">
                   <Calendar className="h-4 w-4" />
-                  Joined {formatDate(new Date(profileData.createdAt))}
+                  Joined {formatJoinDate(new Date(profileData.createdAt))}
                 </div>
               </div>
             </div>

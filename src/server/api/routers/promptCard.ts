@@ -265,6 +265,13 @@ export const promptCardRouter = createTRPCRouter({
             aiModelId: z.string().uuid().optional(),
             authorId: z.string().uuid().optional(),
             search: z.string().optional(),
+            dateFrom: z.date().optional(),
+            dateTo: z.date().optional(),
+            rarities: z
+              .array(z.enum(["BRONZE", "SILVER", "GOLD", "PLATINUM"]))
+              .optional(),
+            minLikes: z.number().min(0).optional(),
+            maxLikes: z.number().min(0).optional(),
           })
           .optional(),
         orderBy: z.enum(["latest", "popular"]).default("latest"),
@@ -297,13 +304,53 @@ export const promptCardRouter = createTRPCRouter({
         ];
       }
 
-      // Add cursor condition
-      if (cursor) {
-        if (orderBy === "latest") {
-          where.createdAt = { lt: new Date(cursor) };
-        } else {
-          where.likesCount = { lt: parseInt(cursor) };
-        }
+      // Build date filter conditions
+      let dateFilter: Prisma.DateTimeFilter | undefined;
+      if (filter?.dateFrom || filter?.dateTo) {
+        dateFilter = {
+          ...(filter.dateFrom && { gte: filter.dateFrom }),
+          ...(filter.dateTo && { lte: filter.dateTo }),
+        };
+      }
+
+      // Add cursor condition for date-based ordering
+      if (cursor && orderBy === "latest") {
+        dateFilter = {
+          ...(dateFilter ?? {}),
+          lt: new Date(cursor),
+        };
+      }
+
+      // Apply date filter if any conditions exist
+      if (dateFilter) {
+        where.createdAt = dateFilter;
+      }
+
+      // Build likes filter conditions
+      let likesFilter: Prisma.IntFilter | undefined;
+      if (filter?.minLikes !== undefined || filter?.maxLikes !== undefined) {
+        likesFilter = {
+          ...(filter.minLikes !== undefined && { gte: filter.minLikes }),
+          ...(filter.maxLikes !== undefined && { lte: filter.maxLikes }),
+        };
+      }
+
+      // Add cursor condition for likes-based ordering
+      if (cursor && orderBy === "popular") {
+        likesFilter = {
+          ...(likesFilter ?? {}),
+          lt: parseInt(cursor),
+        };
+      }
+
+      // Apply likes filter if any conditions exist
+      if (likesFilter) {
+        where.likesCount = likesFilter;
+      }
+
+      // Rarity filter
+      if (filter?.rarities && filter.rarities.length > 0) {
+        where.rarity = { in: filter.rarities };
       }
 
       // Build order by clause

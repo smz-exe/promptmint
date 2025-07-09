@@ -11,7 +11,6 @@ import {
   Copy,
   GitBranch,
   Share2,
-  Flag,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -25,20 +24,10 @@ import { CommentForm } from "~/components/comments/CommentForm";
 import { api } from "~/trpc/react";
 import { useAuth } from "~/lib/hooks/useAuth";
 import { ErrorBoundary } from "~/components/error/ErrorBoundary";
-
-// Temporary date formatting function
-const formatDistanceToNow = (date: Date): string => {
-  const now = new Date();
-  const diff = now.getTime() - date.getTime();
-  const minutes = Math.floor(diff / 60000);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-
-  if (days > 0) return `${days}d ago`;
-  if (hours > 0) return `${hours}h ago`;
-  if (minutes > 0) return `${minutes}m ago`;
-  return "just now";
-};
+import { formatDateSmart } from "~/lib/utils/dateUtils";
+import { ReportDialog } from "~/components/moderation/ReportDialog";
+import { SmartBreadcrumb } from "~/components/navigation/SmartBreadcrumb";
+import { CardDetailSkeleton } from "~/components/loading/CardDetailSkeleton";
 
 export default function CardDetailPage() {
   const params = useParams();
@@ -134,16 +123,7 @@ export default function CardDetailPage() {
   };
 
   if (isLoading) {
-    return (
-      <div className="container mx-auto px-4 py-8">
-        <div className="mx-auto max-w-4xl">
-          <div className="animate-pulse">
-            <div className="mb-4 h-8 rounded bg-gray-300"></div>
-            <div className="h-96 rounded bg-gray-300"></div>
-          </div>
-        </div>
-      </div>
-    );
+    return <CardDetailSkeleton />;
   }
 
   if (error || !cardData) {
@@ -183,6 +163,16 @@ export default function CardDetailPage() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mx-auto max-w-4xl">
+        {/* Breadcrumb Navigation */}
+        <SmartBreadcrumb
+          customItems={[
+            {
+              label: card.title,
+              href: undefined,
+            },
+          ]}
+        />
+
         {/* Back Button */}
         <Button
           variant="ghost"
@@ -232,7 +222,7 @@ export default function CardDetailPage() {
                     {card.author.displayName}
                   </Link>
                   <p className="text-muted-foreground text-sm">
-                    {formatDistanceToNow(new Date(card.createdAt))}
+                    {formatDateSmart(new Date(card.createdAt), "card")}
                   </p>
                 </div>
               </div>
@@ -341,13 +331,7 @@ export default function CardDetailPage() {
                   </ErrorBoundary>
                 )}
 
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground"
-                >
-                  <Flag className="h-4 w-4" />
-                </Button>
+                <ReportDialog promptCardId={cardId} />
               </div>
             </div>
           </CardContent>
