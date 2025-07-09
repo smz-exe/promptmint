@@ -59,7 +59,7 @@ export const authRouter = createTRPCRouter({
           id: authData.user.id,
           email,
           username,
-          displayName: displayName || username,
+          displayName: displayName ?? username,
         },
       });
 

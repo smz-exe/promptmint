@@ -1,47 +1,47 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
 async function main() {
-  console.log('🌱 Seeding database...');
+  console.log("🌱 Seeding database...");
 
   // Seed Categories
-  console.log('📁 Seeding categories...');
+  console.log("📁 Seeding categories...");
   const categories = [
     {
-      name: 'Programming',
-      slug: 'programming',
-      description: 'Code generation, debugging, and development',
+      name: "Programming",
+      slug: "programming",
+      description: "Code generation, debugging, and development",
       order: 1,
     },
     {
-      name: 'Writing',
-      slug: 'writing',
-      description: 'Creative and professional writing',
+      name: "Writing",
+      slug: "writing",
+      description: "Creative and professional writing",
       order: 2,
     },
     {
-      name: 'Analysis & Research',
-      slug: 'analysis-research',
-      description: 'Data analysis and research tasks',
+      name: "Analysis & Research",
+      slug: "analysis-research",
+      description: "Data analysis and research tasks",
       order: 3,
     },
     {
-      name: 'Learning & Education',
-      slug: 'learning-education',
-      description: 'Educational and study prompts',
+      name: "Learning & Education",
+      slug: "learning-education",
+      description: "Educational and study prompts",
       order: 4,
     },
     {
-      name: 'Creative & Art',
-      slug: 'creative-art',
-      description: 'Creative and artistic prompts',
+      name: "Creative & Art",
+      slug: "creative-art",
+      description: "Creative and artistic prompts",
       order: 5,
     },
     {
-      name: 'Others',
-      slug: 'others',
-      description: 'Miscellaneous prompts',
+      name: "Others",
+      slug: "others",
+      description: "Miscellaneous prompts",
       order: 6,
     },
   ];
@@ -56,30 +56,30 @@ async function main() {
   }
 
   // Seed AI Models
-  console.log('🤖 Seeding AI models...');
+  console.log("🤖 Seeding AI models...");
   const aiModels = [
     {
-      name: 'Claude',
-      slug: 'claude',
-      displayName: 'Claude',
+      name: "Claude",
+      slug: "claude",
+      displayName: "Claude",
       order: 1,
     },
     {
-      name: 'GPT',
-      slug: 'gpt',
-      displayName: 'ChatGPT',
+      name: "GPT",
+      slug: "gpt",
+      displayName: "ChatGPT",
       order: 2,
     },
     {
-      name: 'Gemini',
-      slug: 'gemini',
-      displayName: 'Gemini',
+      name: "Gemini",
+      slug: "gemini",
+      displayName: "Gemini",
       order: 3,
     },
     {
-      name: 'Others',
-      slug: 'others',
-      displayName: 'Others',
+      name: "Others",
+      slug: "others",
+      displayName: "Others",
       order: 4,
     },
   ];
@@ -93,14 +93,14 @@ async function main() {
     console.log(`✅ AI Model: ${aiModel.displayName}`);
   }
 
-  console.log('✨ Database seeding completed!');
+  console.log("✨ Database seeding completed!");
 }
 
 main()
   .catch((e) => {
-    console.error('❌ Error seeding database:', e);
+    console.error("❌ Error seeding database:", e);
     process.exit(1);
   })
-  .finally(async () => {
-    await prisma.$disconnect();
+  .finally(() => {
+    void prisma.$disconnect();
   });

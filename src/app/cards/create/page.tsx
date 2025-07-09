@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useAuth } from '~/lib/hooks/useAuth';
-import { PromptCardForm } from '~/components/forms/PromptCardForm';
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useAuth } from "~/lib/hooks/useAuth";
+import { PromptCardForm } from "~/components/forms/PromptCardForm";
 
 export default function CreateCardPage() {
   const { user, loading } = useAuth();
@@ -11,7 +11,7 @@ export default function CreateCardPage() {
 
   useEffect(() => {
     if (!loading && !user) {
-      router.push('/sign-in');
+      router.push("/sign-in");
     }
   }, [user, loading, router]);
 
@@ -28,16 +28,19 @@ export default function CreateCardPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background py-8">
+    <div className="bg-background min-h-screen py-8">
       <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto">
+        <div className="mx-auto max-w-4xl">
           <div className="mb-8 text-center">
-            <h1 className="text-3xl font-bold tracking-tight">Create New Prompt Card</h1>
-            <p className="mt-2 text-muted-foreground">
-              Share your AI prompt with the community and help others discover great prompts
+            <h1 className="text-3xl font-bold tracking-tight">
+              Create New Prompt Card
+            </h1>
+            <p className="text-muted-foreground mt-2">
+              Share your AI prompt with the community and help others discover
+              great prompts
             </p>
           </div>
-          
+
           <PromptCardForm />
         </div>
       </div>

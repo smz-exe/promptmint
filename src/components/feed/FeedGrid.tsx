@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { Button } from "~/components/ui/button";
 import { PromptCard } from "~/components/cards/PromptCard";
 import { api } from "~/trpc/react";
-import { cn } from "~/lib/utils";
 
 interface FeedGridProps {
   filter?: {
@@ -51,7 +50,7 @@ export function FeedGrid({ filter, orderBy = "latest" }: FeedGridProps) {
 
       // Fetch next page when 80% scrolled
       if (scrollTop + windowHeight >= documentHeight * 0.8) {
-        fetchNextPage();
+        void fetchNextPage();
       }
     };
 
@@ -65,7 +64,7 @@ export function FeedGrid({ filter, orderBy = "latest" }: FeedGridProps) {
 
   const handleLoadMore = () => {
     setHasManuallyFetched(true);
-    fetchNextPage();
+    void fetchNextPage();
   };
 
   if (isLoading) {
@@ -91,7 +90,7 @@ export function FeedGrid({ filter, orderBy = "latest" }: FeedGridProps) {
     );
   }
 
-  const allCards = data?.pages.flatMap((page) => page.cards) || [];
+  const allCards = data?.pages.flatMap((page) => page.cards) ?? [];
 
   if (allCards.length === 0) {
     return (

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { Rarity } from "@prisma/client";
+import { Rarity, type Prisma } from "@prisma/client";
 
 import { createTRPCRouter, protectedProcedure } from "~/server/api/trpc";
 
@@ -16,19 +16,19 @@ export const likeRouter = createTRPCRouter({
     .input(z.object({ promptCardId: z.string().uuid() }))
     .mutation(async ({ ctx, input }) => {
       const { promptCardId } = input;
-      
+
       // Check if prompt card exists
       const promptCard = await ctx.db.promptCard.findUnique({
         where: { id: promptCardId, isDeleted: false },
       });
-      
+
       if (!promptCard) {
         throw new TRPCError({
           code: "NOT_FOUND",
           message: "Prompt card not found",
         });
       }
-      
+
       // Check if user already liked this card
       const existingLike = await ctx.db.like.findUnique({
         where: {
@@ -38,24 +38,24 @@ export const likeRouter = createTRPCRouter({
           },
         },
       });
-      
+
       let isLiked: boolean;
       let newLikesCount: number;
-      
+
       if (existingLike) {
         // Unlike - remove the like
         await ctx.db.like.delete({
           where: { id: existingLike.id },
         });
-        
+
         // Update likes count
         const updatedCard = await ctx.db.promptCard.update({
           where: { id: promptCardId },
-          data: { 
+          data: {
             likesCount: { decrement: 1 },
           },
         });
-        
+
         newLikesCount = updatedCard.likesCount;
         isLiked = false;
       } else {
@@ -66,26 +66,26 @@ export const likeRouter = createTRPCRouter({
             promptCardId,
           },
         });
-        
+
         // Update likes count
         const updatedCard = await ctx.db.promptCard.update({
           where: { id: promptCardId },
-          data: { 
+          data: {
             likesCount: { increment: 1 },
           },
         });
-        
+
         newLikesCount = updatedCard.likesCount;
         isLiked = true;
       }
-      
+
       // Update rarity based on new likes count
       const newRarity = getRarityFromLikes(newLikesCount);
       await ctx.db.promptCard.update({
         where: { id: promptCardId },
         data: { rarity: newRarity },
       });
-      
+
       return {
         isLiked,
         likesCount: newLikesCount,
@@ -98,23 +98,23 @@ export const likeRouter = createTRPCRouter({
       z.object({
         limit: z.number().min(1).max(50).default(20),
         cursor: z.string().optional(),
-      })
+      }),
     )
     .query(async ({ ctx, input }) => {
       const { limit, cursor } = input;
-      
+
       // Build where clause
-      const where: any = {
+      const where: Prisma.LikeWhereInput = {
         userId: ctx.user.id,
       };
-      
+
       if (cursor) {
         where.createdAt = { lt: new Date(cursor) };
       }
-      
+
       const likes = await ctx.db.like.findMany({
         where,
-        orderBy: { createdAt: 'desc' },
+        orderBy: { createdAt: "desc" },
         take: limit + 1,
         include: {
           promptCard: {
@@ -133,21 +133,21 @@ export const likeRouter = createTRPCRouter({
           },
         },
       });
-      
+
       // Filter out deleted cards
-      const validLikes = likes.filter(like => !like.promptCard.isDeleted);
-      
+      const validLikes = likes.filter((like) => !like.promptCard.isDeleted);
+
       // Check if there are more items
       const hasMore = validLikes.length > limit;
       const itemsToReturn = hasMore ? validLikes.slice(0, -1) : validLikes;
-      
+
       // Generate next cursor
       const nextCursor = hasMore
         ? validLikes[limit - 1]?.createdAt.toISOString()
         : null;
-      
+
       return {
-        cards: itemsToReturn.map(like => ({
+        cards: itemsToReturn.map((like) => ({
           ...like.promptCard,
           isLikedByUser: true,
         })),

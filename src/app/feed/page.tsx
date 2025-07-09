@@ -1,12 +1,12 @@
-'use client'
+"use client";
 
-import { useState } from 'react';
-import Link from 'next/link';
-import { Plus } from 'lucide-react';
-import { Button } from '~/components/ui/button';
-import { FeedGrid } from '~/components/feed/FeedGrid';
-import { FeedFilters } from '~/components/feed/FeedFilters';
-import { useAuth } from '~/lib/hooks/useAuth';
+import { useState } from "react";
+import Link from "next/link";
+import { Plus } from "lucide-react";
+import { Button } from "~/components/ui/button";
+import { FeedGrid } from "~/components/feed/FeedGrid";
+import { FeedFilters } from "~/components/feed/FeedFilters";
+import { useAuth } from "~/lib/hooks/useAuth";
 
 export default function FeedPage() {
   const { user } = useAuth();
@@ -15,22 +15,22 @@ export default function FeedPage() {
     aiModelId?: string;
     search?: string;
   }>({});
-  const [orderBy, setOrderBy] = useState<'latest' | 'popular'>('latest');
+  const [orderBy, setOrderBy] = useState<"latest" | "popular">("latest");
 
   const handleFilterChange = (newFilter: typeof filter) => {
     setFilter(newFilter);
   };
 
-  const handleOrderChange = (newOrder: 'latest' | 'popular') => {
+  const handleOrderChange = (newOrder: "latest" | "popular") => {
     setOrderBy(newOrder);
   };
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <div className="container mx-auto px-4 py-8">
-        <div className="max-w-7xl mx-auto">
+        <div className="mx-auto max-w-7xl">
           {/* Header */}
-          <div className="flex items-center justify-between mb-8">
+          <div className="mb-8 flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight">
                 AI Prompt Trading Cards
@@ -39,7 +39,7 @@ export default function FeedPage() {
                 Discover and share amazing AI prompts with the community
               </p>
             </div>
-            
+
             {user && (
               <Button asChild size="lg">
                 <Link href="/cards/create" className="flex items-center gap-2">
@@ -61,10 +61,7 @@ export default function FeedPage() {
           </div>
 
           {/* Feed Grid */}
-          <FeedGrid
-            filter={filter}
-            orderBy={orderBy}
-          />
+          <FeedGrid filter={filter} orderBy={orderBy} />
         </div>
       </div>
     </div>

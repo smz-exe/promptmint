@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 // import { formatDistanceToNow } from "date-fns";
 
 // Temporary date formatting function
@@ -127,7 +128,7 @@ export function PromptCard({
     try {
       await navigator.clipboard.writeText(card.promptText);
       toast.success("Prompt copied to clipboard!");
-    } catch (error) {
+    } catch {
       toast.error("Failed to copy prompt");
     }
   };
@@ -225,10 +226,12 @@ export function PromptCard({
 
         <div className="flex items-center justify-between">
           <div className="text-muted-foreground flex items-center gap-1 text-xs">
-            <img
-              src={card.author.avatarUrl || "/default-avatar.png"}
+            <Image
+              src={card.author.avatarUrl ?? "/default-avatar.png"}
               alt={card.author.displayName}
-              className="h-4 w-4 rounded-full"
+              width={16}
+              height={16}
+              className="rounded-full"
             />
             <Link
               href={`/profile/${card.author.username}`}

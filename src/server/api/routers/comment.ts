@@ -1,5 +1,6 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
+import { type Prisma } from "@prisma/client";
 
 import {
   createTRPCRouter,
@@ -162,7 +163,7 @@ export const commentRouter = createTRPCRouter({
       const { promptCardId, limit, cursor } = input;
 
       // Build where clause
-      const where: any = {
+      const where: Prisma.CommentWhereInput = {
         promptCardId,
       };
 

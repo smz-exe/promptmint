@@ -1,19 +1,12 @@
 import { z } from "zod";
 import { TRPCError } from "@trpc/server";
-import { Rarity } from "@prisma/client";
+import { type Prisma } from "@prisma/client";
 
 import {
   createTRPCRouter,
   publicProcedure,
   protectedProcedure,
 } from "~/server/api/trpc";
-
-const getRarityFromLikes = (likes: number): Rarity => {
-  if (likes >= 100) return Rarity.PLATINUM;
-  if (likes >= 50) return Rarity.GOLD;
-  if (likes >= 20) return Rarity.SILVER;
-  return Rarity.BRONZE;
-};
 
 export const promptCardRouter = createTRPCRouter({
   create: protectedProcedure
@@ -281,7 +274,7 @@ export const promptCardRouter = createTRPCRouter({
       const { limit, cursor, filter, orderBy } = input;
 
       // Build where clause
-      const where: any = {
+      const where: Prisma.PromptCardWhereInput = {
         isDeleted: false,
       };
 
@@ -409,7 +402,7 @@ export const promptCardRouter = createTRPCRouter({
       }
 
       // Build where clause
-      const where: any = {
+      const where: Prisma.PromptCardWhereInput = {
         authorId: user.id,
         isDeleted: false,
       };
