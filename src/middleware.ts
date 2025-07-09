@@ -55,7 +55,35 @@ export async function middleware(request: NextRequest) {
     },
   );
 
-  await supabase.auth.getUser();
+  // Get the current user session
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // Get the current pathname
+  const pathname = request.nextUrl.pathname;
+
+  // Redirect authenticated users from root to feed
+  if (pathname === "/" && user) {
+    const feedUrl = new URL("/feed", request.url);
+    return NextResponse.redirect(feedUrl);
+  }
+
+  // Redirect authenticated users from auth pages to feed
+  const authPages = ["/sign-in", "/sign-up"];
+  if (authPages.includes(pathname) && user) {
+    const feedUrl = new URL("/feed", request.url);
+    return NextResponse.redirect(feedUrl);
+  }
+
+  // Redirect unauthenticated users from protected routes to sign-in
+  const protectedRoutes = ["/cards/create", "/settings"];
+  if (protectedRoutes.includes(pathname) && !user) {
+    const signInUrl = new URL("/sign-in", request.url);
+    // Add redirect parameter to return to original page after sign-in
+    signInUrl.searchParams.set("redirect", pathname);
+    return NextResponse.redirect(signInUrl);
+  }
 
   return response;
 }

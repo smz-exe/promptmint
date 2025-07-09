@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -29,8 +29,10 @@ type SignInForm = z.infer<typeof signInSchema>;
 
 export default function SignInPage() {
   const [isLoading, setIsLoading] = useState(false);
-  const { signIn } = useAuth();
+  const { signIn, user, loading } = useAuth();
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
 
   const form = useForm<SignInForm>({
     resolver: zodResolver(signInSchema),
@@ -39,6 +41,22 @@ export default function SignInPage() {
       password: "",
     },
   });
+
+  // Redirect authenticated users to feed
+  useEffect(() => {
+    if (!loading && user) {
+      router.push("/feed");
+    }
+  }, [user, loading, router]);
+
+  // Show loading while checking authentication
+  if (loading || user) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-4">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
 
   const onSubmit = async (data: SignInForm) => {
     setIsLoading(true);
@@ -49,7 +67,9 @@ export default function SignInPage() {
         toast.error(error.message);
       } else {
         toast.success("Successfully signed in!");
-        router.push("/");
+        // Redirect to the original page or feed
+        const redirectUrl = redirect && redirect !== "/" ? redirect : "/feed";
+        router.push(redirectUrl);
       }
     } catch {
       toast.error("An unexpected error occurred");

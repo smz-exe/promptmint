@@ -178,4 +178,10 @@ Required environment variables (see `.env.example`):
 - Optimistic updates for real-time features
 - Proper foreign key relationships and indexes
 
+### Development Quality Checks
+
+- After completing implementation, always run `npm run check` to verify linting and TypeScript type errors
+- After resolving errors, always run `npm run format:check` to ensure proper code formatting
+- If formatting issues exist, run `npm run format:write` to automatically correct formatting
+
 Always run `npm run check` before committing to ensure code quality.

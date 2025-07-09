@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
@@ -19,6 +19,7 @@ import {
   CardTitle,
 } from "~/components/ui/card";
 import { api } from "~/trpc/react";
+import { useAuth } from "~/lib/hooks/useAuth";
 
 const signUpSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -37,6 +38,7 @@ type SignUpForm = z.infer<typeof signUpSchema>;
 
 export default function SignUpPage() {
   const [isLoading, setIsLoading] = useState(false);
+  const { user, loading } = useAuth();
   const router = useRouter();
 
   const signUpMutation = api.auth.signUp.useMutation({
@@ -60,6 +62,22 @@ export default function SignUpPage() {
       displayName: "",
     },
   });
+
+  // Redirect authenticated users to feed
+  useEffect(() => {
+    if (!loading && user) {
+      router.push("/feed");
+    }
+  }, [user, loading, router]);
+
+  // Show loading while checking authentication
+  if (loading || user) {
+    return (
+      <div className="flex min-h-screen flex-col items-center justify-center bg-gradient-to-b from-[#2e026d] to-[#15162c] p-4">
+        <div className="text-white">Loading...</div>
+      </div>
+    );
+  }
 
   const onSubmit = async (data: SignUpForm) => {
     setIsLoading(true);
