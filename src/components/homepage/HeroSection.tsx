@@ -1,36 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Sparkles, Zap, Brain, Code } from "lucide-react";
+import { Sparkles, Zap, Brain } from "lucide-react";
 import { Button } from "~/components/ui/button";
 import Link from "next/link";
-
-const floatingCards = [
-  {
-    title: "Creative Writing",
-    category: "Creative",
-    gradient: "from-pink-500 to-violet-500",
-    delay: 0,
-    x: -20,
-    y: -30,
-  },
-  {
-    title: "Code Review",
-    category: "Programming",
-    gradient: "from-blue-500 to-cyan-500",
-    delay: 0.2,
-    x: 20,
-    y: 20,
-  },
-  {
-    title: "Data Analysis",
-    category: "Analysis",
-    gradient: "from-emerald-500 to-teal-500",
-    delay: 0.4,
-    x: -30,
-    y: 40,
-  },
-];
 
 // Pre-defined particle positions to avoid hydration errors
 const particles = [
@@ -159,49 +132,6 @@ export function HeroSection() {
               </Link>
             </Button>
           </motion.div>
-
-          {/* Floating cards */}
-          <div className="relative">
-            {floatingCards.map((card, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{
-                  opacity: 1,
-                  scale: 1,
-                  x: [0, card.x, 0],
-                  y: [0, card.y, 0],
-                }}
-                transition={{
-                  duration: 0.8,
-                  delay: card.delay,
-                  x: {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                  y: {
-                    duration: 4,
-                    repeat: Infinity,
-                    ease: "easeInOut",
-                  },
-                }}
-                className={`absolute hidden rounded-xl bg-gradient-to-br ${card.gradient} p-4 shadow-2xl backdrop-blur-sm md:block`}
-                style={{
-                  left: `${20 + index * 25}%`,
-                  top: "60%",
-                }}
-              >
-                <div className="flex items-center gap-2 text-white">
-                  <Code className="h-4 w-4" />
-                  <div>
-                    <div className="text-sm font-semibold">{card.title}</div>
-                    <div className="text-xs opacity-80">{card.category}</div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </div>
         </div>
       </div>
 
