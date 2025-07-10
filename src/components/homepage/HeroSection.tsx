@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Sparkles, Zap, Brain } from "lucide-react";
 import { Button } from "~/components/ui/button";
+import DisplayCards from "~/components/ui/display-cards";
 import Link from "next/link";
 
 // Pre-defined particle positions to avoid hydration errors
@@ -57,81 +58,101 @@ export function HeroSection() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex min-h-screen flex-col items-center justify-center px-4">
-        <div className="mx-auto max-w-6xl text-center">
-          {/* Badge */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="mb-8"
-          >
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm">
-              <Sparkles className="h-4 w-4" />
-              <span>Powered by AI Community</span>
+      <div className="relative z-10 flex min-h-screen items-center px-6 lg:px-12">
+        <div className="mx-auto w-full max-w-7xl">
+          <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
+            {/* Left column - Text content */}
+            <div className="text-left">
+              {/* Badge */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                className="mb-8"
+              >
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm">
+                  <Sparkles className="h-4 w-4" />
+                  <span>47K+ Prompts Shared</span>
+                </div>
+              </motion.div>
+
+              {/* Main heading */}
+              <motion.h1
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                className="mb-6 text-4xl leading-tight font-bold text-white sm:text-5xl lg:text-6xl xl:text-7xl"
+              >
+                <span className="block">Your AI Prompts,</span>
+                <span className="block bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
+                  Reimagined
+                </span>
+              </motion.h1>
+
+              {/* Subtitle */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4 }}
+                className="mb-10 max-w-xl text-lg text-white/80 sm:text-xl"
+              >
+                Transform prompts into collectible trading cards. Share your
+                creativity with a vibrant community of AI enthusiasts.
+              </motion.p>
+
+              {/* CTA buttons */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.6 }}
+                className="flex flex-col gap-4 sm:flex-row"
+              >
+                <Button
+                  asChild
+                  size="lg"
+                  className="group relative overflow-hidden bg-gradient-to-r from-pink-500 to-violet-600 px-8 py-4 text-lg font-semibold shadow-lg shadow-pink-500/25 transition-all hover:scale-105 hover:shadow-xl hover:shadow-pink-500/40"
+                >
+                  <Link href="/sign-up">
+                    <span className="relative z-10 flex items-center gap-2">
+                      Start Creating
+                      <Zap className="h-5 w-5 transition-transform group-hover:rotate-12" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-pink-500 opacity-0 transition-opacity group-hover:opacity-100" />
+                  </Link>
+                </Button>
+
+                <Button
+                  asChild
+                  variant="outline"
+                  size="lg"
+                  className="border-white/20 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm hover:bg-white/20"
+                >
+                  <Link href="/feed">
+                    <span className="flex items-center gap-2">
+                      Explore Gallery
+                      <Brain className="h-5 w-5" />
+                    </span>
+                  </Link>
+                </Button>
+              </motion.div>
             </div>
-          </motion.div>
 
-          {/* Main heading */}
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="mb-6 text-4xl leading-tight font-bold text-white sm:text-6xl lg:text-7xl"
-          >
-            <span className="block">Create.</span>
-            <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-              Share.
-            </span>
-            <span className="block">Discover.</span>
-          </motion.h1>
-
-          {/* Subtitle */}
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.4 }}
-            className="mx-auto mb-10 max-w-2xl text-lg text-white/80 sm:text-xl"
-          >
-            Transform your AI prompts into beautiful trading cards. Join a
-            creative community where ideas become collectible art.
-          </motion.p>
-
-          {/* CTA buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.6 }}
-            className="mb-16 flex flex-col gap-4 sm:flex-row sm:justify-center"
-          >
-            <Button
-              asChild
-              size="lg"
-              className="group relative overflow-hidden bg-gradient-to-r from-pink-500 to-violet-600 px-8 py-4 text-lg font-semibold shadow-lg shadow-pink-500/25 transition-all hover:scale-105 hover:shadow-xl hover:shadow-pink-500/40"
+            {/* Right column - Display Cards */}
+            <motion.div
+              initial={{ opacity: 0, x: 50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 1, delay: 0.8 }}
+              className="relative lg:pl-8"
             >
-              <Link href="/sign-up">
-                <span className="relative z-10 flex items-center gap-2">
-                  Start Creating
-                  <Zap className="h-5 w-5 transition-transform group-hover:rotate-12" />
-                </span>
-                <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-pink-500 opacity-0 transition-opacity group-hover:opacity-100" />
-              </Link>
-            </Button>
+              <div className="relative">
+                {/* Glow effect behind cards */}
+                <div className="absolute inset-0 bg-gradient-to-r from-pink-500/20 via-purple-500/20 to-cyan-500/20 blur-3xl" />
 
-            <Button
-              asChild
-              variant="outline"
-              size="lg"
-              className="border-white/20 bg-white/10 px-8 py-4 text-lg font-semibold text-white backdrop-blur-sm hover:bg-white/20"
-            >
-              <Link href="/feed">
-                <span className="flex items-center gap-2">
-                  Explore Cards
-                  <Brain className="h-5 w-5" />
-                </span>
-              </Link>
-            </Button>
-          </motion.div>
+                {/* Display Cards */}
+                <DisplayCards />
+              </div>
+            </motion.div>
+          </div>
         </div>
       </div>
 
