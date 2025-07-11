@@ -58,7 +58,7 @@ export function HeroSection() {
       </div>
 
       {/* Main content */}
-      <div className="relative z-10 flex min-h-screen items-center px-6 lg:px-12">
+      <div className="relative z-10 flex min-h-[calc(100vh-4rem)] items-center px-6 lg:px-12">
         <div className="mx-auto w-full max-w-7xl">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-8">
             {/* Left column - Text content */}
