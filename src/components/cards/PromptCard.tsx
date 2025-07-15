@@ -153,16 +153,28 @@ export function PromptCard({
   const getCardBackgroundClass = () => {
     switch (card.rarity) {
       case "BRONZE":
-        return "bg-gradient-to-br from-amber-50/50 to-orange-50/30";
+        return "bg-gradient-to-br from-amber-600 to-orange-600";
       case "SILVER":
-        return "bg-gradient-to-br from-slate-50/50 to-gray-50/30";
+        return "bg-gradient-to-br from-slate-600 to-gray-600";
       case "GOLD":
-        return "bg-gradient-to-br from-yellow-50/50 to-amber-50/30";
+        return "bg-gradient-to-br from-yellow-500 to-amber-500";
       case "PLATINUM":
-        return "bg-gradient-to-br from-purple-50/50 to-pink-50/30";
+        return "bg-gradient-to-br from-purple-600 to-pink-600";
       default:
-        return "bg-gradient-to-br from-background to-background/95";
+        return "bg-gradient-to-br from-slate-700 to-slate-800";
     }
+  };
+
+  const getCategoryGradient = () => {
+    const gradientMap: Record<string, string> = {
+      Programming: "from-blue-500 to-cyan-600",
+      Writing: "from-emerald-500 to-teal-600",
+      Analysis: "from-purple-500 to-violet-600",
+      Learning: "from-orange-500 to-amber-600",
+      Creative: "from-pink-500 to-rose-600",
+      Others: "from-slate-500 to-gray-600",
+    };
+    return gradientMap[card.category.name] ?? "from-slate-500 to-gray-600";
   };
 
   const getCategoryColor = () => {
@@ -190,14 +202,17 @@ export function PromptCard({
     <Card
       className={cn(
         "group relative cursor-pointer transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]",
-        "mx-auto flex h-[360px] w-full max-w-md flex-col", // Reduced height, increased width
+        "mx-auto flex h-[360px] w-full max-w-md flex-col",
+        "bg-gradient-to-br",
+        getCategoryGradient(),
         getCardBorderClass(),
         getCardGlowClass(),
-        getCardBackgroundClass(),
-        "border-2 backdrop-blur-sm",
+        "border-2 backdrop-blur-sm shadow-2xl",
       )}
       onClick={onClick}
     >
+      {/* Glassmorphism overlay */}
+      <div className="absolute inset-0 rounded-lg bg-white/10 backdrop-blur-sm" />
       {/* Rarity Sparkle Effect */}
       {(card.rarity === "GOLD" || card.rarity === "PLATINUM") && (
         <div className="absolute -top-1 -right-1 z-10">
@@ -205,23 +220,12 @@ export function PromptCard({
         </div>
       )}
 
-      <CardHeader className="flex-shrink-0 pb-4">
+      <CardHeader className="relative z-10 flex-shrink-0 pb-4 text-white">
         <div className="mb-3 flex items-start justify-between">
           <div className="flex items-center gap-2">
             <RarityBadge rarity={card.rarity} size="sm" />
-            <span
-              className={cn(
-                "rounded-full border px-3 py-1 text-xs font-medium",
-                "max-w-[140px] truncate", // Increased width for better category display
-                getCategoryColor(),
-              )}
-            >
+            <span className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white">
               {card.category.name}
-            </span>
-          </div>
-          <div className="flex-shrink-0">
-            <span className="bg-primary/10 text-primary rounded-full px-3 py-1 text-xs font-medium">
-              {card.aiModel.displayName}
             </span>
           </div>
         </div>
@@ -241,26 +245,26 @@ export function PromptCard({
         )}
 
         <div className="space-y-3">
-          <h3 className="line-clamp-2 text-lg leading-tight font-bold">
+          <h3 className="line-clamp-2 text-lg leading-tight font-bold text-white">
             {card.title}
           </h3>
-          <p className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
+          <p className="line-clamp-2 text-sm leading-relaxed text-white/80">
             {card.description}
           </p>
         </div>
       </CardHeader>
 
-      <CardContent className="flex flex-1 flex-col pt-0">
+      <CardContent className="relative z-10 flex flex-1 flex-col pt-0 text-white">
         <div className="mb-4 flex-1">
-          <div className="bg-muted/50 h-full overflow-hidden rounded-lg border p-4 font-mono text-sm">
-            <pre className="text-foreground/80 line-clamp-3 whitespace-pre-wrap">
+          <div className="h-full overflow-hidden rounded-lg border border-white/20 bg-white/10 p-4 font-mono text-sm backdrop-blur-sm">
+            <pre className="line-clamp-3 whitespace-pre-wrap text-white/90">
               {promptPreview}
             </pre>
           </div>
         </div>
 
-        <div className="mb-4 flex flex-shrink-0 items-center justify-between">
-          <div className="text-muted-foreground flex items-center gap-2 text-xs">
+        <div className="mb-4 flex flex-shrink-0 items-center justify-between border-t border-white/20 pt-4">
+          <div className="flex items-center gap-2 text-xs text-white/60">
             <Image
               src={card.author.avatarUrl ?? "/default-avatar.png"}
               alt={card.author.displayName}
@@ -290,10 +294,10 @@ export function PromptCard({
               onClick={handleLike}
               disabled={isLikeLoading}
               className={cn(
-                "flex h-8 items-center gap-1 px-2 text-xs",
+                "flex h-8 items-center gap-1 px-2 text-xs hover:bg-white/10",
                 isLiked
-                  ? "text-red-500 hover:text-red-600"
-                  : "text-muted-foreground hover:text-foreground",
+                  ? "text-red-400 hover:text-red-300"
+                  : "text-white/60 hover:text-white",
               )}
             >
               <Heart className={cn("h-4 w-4", isLiked && "fill-current")} />
@@ -303,7 +307,7 @@ export function PromptCard({
             <Button
               variant="ghost"
               size="sm"
-              className="text-muted-foreground hover:text-foreground flex h-8 items-center gap-1 px-2 text-xs"
+              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:text-white hover:bg-white/10"
               onClick={(e) => e.stopPropagation()}
             >
               <MessageCircle className="h-4 w-4" />
@@ -314,7 +318,7 @@ export function PromptCard({
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-muted-foreground hover:text-foreground flex h-8 items-center gap-1 px-2 text-xs"
+                className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:text-white hover:bg-white/10"
                 onClick={(e) => e.stopPropagation()}
               >
                 <GitBranch className="h-4 w-4" />
@@ -328,7 +332,7 @@ export function PromptCard({
               variant="ghost"
               size="sm"
               onClick={handleCopy}
-              className="text-muted-foreground hover:text-foreground flex h-8 items-center gap-1 px-2 text-xs"
+              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:text-white hover:bg-white/10"
             >
               <Copy className="h-4 w-4" />
             </Button>
@@ -340,7 +344,7 @@ export function PromptCard({
                 e.stopPropagation();
                 if (onClick) onClick();
               }}
-              className="text-muted-foreground hover:text-foreground flex h-8 items-center gap-1 px-2 text-xs"
+              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:text-white hover:bg-white/10"
             >
               <ExternalLink className="h-4 w-4" />
             </Button>

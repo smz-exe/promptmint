@@ -36,7 +36,10 @@ export function HeroSection() {
       {/* Animated background particles - Responsive count */}
       <div className="absolute inset-0">
         {particles
-          .slice(0, typeof window !== 'undefined' && window.innerWidth < 768 ? 10 : 20)
+          .slice(
+            0,
+            typeof window !== "undefined" && window.innerWidth < 768 ? 10 : 20,
+          )
           .map((particle) => (
             <motion.div
               key={particle.id}
@@ -72,7 +75,7 @@ export function HeroSection() {
                 transition={{ duration: 0.6 }}
                 className="mb-6 sm:mb-8"
               >
-                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 sm:px-4 sm:py-2 text-xs sm:text-sm text-white backdrop-blur-sm">
+                <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs text-white backdrop-blur-sm sm:px-4 sm:py-2 sm:text-sm">
                   <Sparkles className="h-3 w-3 sm:h-4 sm:w-4" />
                   <span>10K+ Cards Minted Daily</span>
                 </div>
@@ -96,7 +99,7 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
-                className="mb-4 sm:mb-6 text-lg sm:text-xl font-medium text-white/90"
+                className="mb-4 text-lg font-medium text-white/90 sm:mb-6 sm:text-xl"
               >
                 Where AI Prompts Become Collectibles
               </motion.p>
@@ -106,7 +109,7 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.5 }}
-                className="mb-8 sm:mb-10 max-w-xl text-base sm:text-lg lg:text-xl text-white/80 leading-relaxed"
+                className="mb-8 max-w-xl text-base leading-relaxed text-white/80 sm:mb-10 sm:text-lg lg:text-xl"
               >
                 Transform AI prompts into collectible cards. Every mint tells a
                 story, every collection builds your reputation.
@@ -117,17 +120,17 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.7 }}
-                className="flex flex-col gap-3 sm:gap-4 sm:flex-row"
+                className="flex flex-col gap-3 sm:flex-row sm:gap-4"
               >
                 <Button
                   asChild
                   size="lg"
-                  className="group relative overflow-hidden bg-gradient-to-r from-pink-500 to-violet-600 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold shadow-lg shadow-pink-500/25 transition-all hover:scale-105 hover:shadow-xl hover:shadow-pink-500/40 min-h-[48px] sm:min-h-[56px]"
+                  className="group relative min-h-[48px] overflow-hidden bg-gradient-to-r from-pink-500 to-violet-600 px-6 py-3 text-base font-semibold shadow-lg shadow-pink-500/25 transition-all hover:scale-105 hover:shadow-xl hover:shadow-pink-500/40 sm:min-h-[56px] sm:px-8 sm:py-4 sm:text-lg"
                 >
                   <Link href="/sign-up">
                     <span className="relative z-10 flex items-center justify-center gap-2">
                       Start Minting
-                      <Zap className="h-4 w-4 sm:h-5 sm:w-5 transition-transform group-hover:rotate-12" />
+                      <Zap className="h-4 w-4 transition-transform group-hover:rotate-12 sm:h-5 sm:w-5" />
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-pink-500 opacity-0 transition-opacity group-hover:opacity-100" />
                   </Link>
@@ -137,7 +140,7 @@ export function HeroSection() {
                   asChild
                   variant="outline"
                   size="lg"
-                  className="border-white/20 bg-white/10 px-6 py-3 sm:px-8 sm:py-4 text-base sm:text-lg font-semibold text-white backdrop-blur-sm hover:bg-white/20 min-h-[48px] sm:min-h-[56px]"
+                  className="min-h-[48px] border-white/20 bg-white/10 px-6 py-3 text-base font-semibold text-white backdrop-blur-sm hover:bg-white/20 sm:min-h-[56px] sm:px-8 sm:py-4 sm:text-lg"
                 >
                   <Link href="/feed">
                     <span className="flex items-center justify-center gap-2">
@@ -164,13 +167,15 @@ export function HeroSection() {
                 <div className="hidden sm:block">
                   <DisplayCards />
                 </div>
-                
+
                 {/* Mobile alternative - simplified card preview */}
                 <div className="block sm:hidden">
-                  <div className="relative mx-auto w-64 h-40 bg-gradient-to-br from-pink-500/20 to-purple-500/20 rounded-xl border border-white/20 backdrop-blur-sm flex items-center justify-center">
+                  <div className="relative mx-auto flex h-40 w-64 items-center justify-center rounded-xl border border-white/20 bg-gradient-to-br from-pink-500/20 to-purple-500/20 backdrop-blur-sm">
                     <div className="text-center text-white/80">
-                      <Sparkles className="h-8 w-8 mx-auto mb-2" />
-                      <p className="text-sm font-medium">Beautiful AI Prompt Cards</p>
+                      <Sparkles className="mx-auto mb-2 h-8 w-8" />
+                      <p className="text-sm font-medium">
+                        Beautiful AI Prompt Cards
+                      </p>
                     </div>
                   </div>
                 </div>
