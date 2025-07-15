@@ -3,44 +3,48 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { cn } from "~/lib/utils";
-import { Code2, Palette, BarChart3, Sparkles } from "lucide-react";
+import {
+  Code2,
+  Palette,
+  BarChart3,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
+import { PromptCard } from "~/components/ui/PromptCard";
 
 interface DisplayCardProps {
   className?: string;
-  icon?: React.ReactNode;
-  title?: string;
-  description?: string;
-  author?: string;
-  category?: string;
-  rarity?: "bronze" | "silver" | "gold" | "platinum";
-  likes?: number;
+  icon: LucideIcon;
+  title: string;
+  description: string;
+  author: string;
+  category: string;
+  categoryColor: "pink" | "blue" | "emerald" | "purple" | "orange";
+  rarity: "bronze" | "silver" | "gold" | "platinum";
+  likes: number;
   index?: number;
   isHovered?: boolean;
   hoveredIndex?: number | null;
   onHover?: (index: number | null) => void;
+  gradient: string;
 }
 
 function DisplayCard({
   className,
-  icon = <Sparkles className="h-4 w-4" />,
+  icon = Sparkles,
   title = "Featured Prompt",
   description = "An amazing AI prompt",
   author = "@creator",
   category = "Creative",
+  categoryColor = "pink",
   rarity = "silver",
   likes = 42,
   index = 0,
   isHovered = false,
   hoveredIndex = null,
   onHover,
+  gradient = "from-slate-900 to-slate-800",
 }: DisplayCardProps) {
-  const rarityColors = {
-    bronze: "from-orange-600 to-orange-400",
-    silver: "from-gray-400 to-gray-300",
-    gold: "from-yellow-500 to-yellow-400",
-    platinum: "from-purple-600 to-purple-400",
-  };
-
   const rarityBorderColors = {
     bronze: "border-orange-500/50",
     silver: "border-gray-400/50",
@@ -51,20 +55,20 @@ function DisplayCard({
   // Calculate dynamic positioning and z-index
   const getCardStyle = () => {
     const baseTransforms = [
-      { x: 0, y: 0, rotate: 0 }, // Card 0 (front)
-      { x: 32, y: 32, rotate: 2 }, // Card 1 (middle)
-      { x: 64, y: 64, rotate: 4 }, // Card 2 (back)
+      { x: 0, y: 0, rotate: 3 }, // Card 0 (front)
+      { x: 40, y: 50, rotate: 6 }, // Card 1 (middle)
+      { x: 80, y: 90, rotate: 9 }, // Card 2 (back)
     ];
 
-    const baseTransform = baseTransforms[index] ?? baseTransforms[0];
+    const baseTransform = baseTransforms[index] ?? baseTransforms[0]!;
 
     // If this card is hovered
     if (isHovered) {
       return {
-        x: 0,
-        y: -40,
+        x: baseTransform.x,
+        y: -50,
         rotate: 0,
-        scale: 1.1,
+        scale: 1.04,
         zIndex: 50,
       };
     }
@@ -75,19 +79,19 @@ function DisplayCard({
         // When card 0 is hovered
         [
           { x: 0, y: 0, rotate: 0 }, // Card 0 stays
-          { x: 90, y: 60, rotate: 8 }, // Card 1 spreads right
-          { x: 120, y: 100, rotate: 12 }, // Card 2 spreads further right
+          { x: 90, y: 70, rotate: 10 }, // Card 1 spreads right
+          { x: 100, y: 90, rotate: 12 }, // Card 2 spreads further right
         ],
         // When card 1 is hovered
         [
           { x: -100, y: 40, rotate: -12 }, // Card 0 spreads left-back
           { x: 0, y: 0, rotate: 0 }, // Card 1 stays
-          { x: 120, y: 80, rotate: 12 }, // Card 2 spreads right-back
+          { x: 120, y: 100, rotate: 20 }, // Card 2 spreads right-back
         ],
         // When card 2 is hovered
         [
-          { x: -120, y: 30, rotate: -10 }, // Card 0 spreads far left-back
-          { x: -80, y: 50, rotate: -25 }, // Card 1 spreads left-back
+          { x: -10, y: 30, rotate: -10 }, // Card 0 spreads far left-back
+          { x: -80, y: 90, rotate: -25 }, // Card 1 spreads left-back
           { x: 0, y: 0, rotate: 0 }, // Card 2 stays
         ],
       ];
@@ -114,7 +118,7 @@ function DisplayCard({
   return (
     <motion.div
       className={cn(
-        "absolute flex h-48 w-[22rem] -skew-y-[8deg] cursor-pointer flex-col rounded-xl border-2 bg-gradient-to-br from-slate-900/90 to-slate-800/90 px-5 py-4 backdrop-blur-sm select-none",
+        "absolute -skew-y-[8deg] cursor-pointer select-none",
         rarityBorderColors[rarity],
         className,
       )}
@@ -144,48 +148,22 @@ function DisplayCard({
         // This will be handled by the container's onHoverEnd
       }}
     >
-      {/* Rarity gradient overlay */}
-      <div
-        className={cn(
-          "absolute inset-x-0 top-0 h-1 rounded-t-xl bg-gradient-to-r",
-          rarityColors[rarity],
-        )}
+      <PromptCard
+        title={title}
+        description={description}
+        author={author}
+        likes={likes}
+        category={{
+          id: category.toLowerCase(),
+          label: category,
+          icon: icon,
+          color: categoryColor,
+        }}
+        gradient={gradient}
+        rarity={rarity}
+        showRarity={true}
+        className="border-2 backdrop-blur-sm"
       />
-
-      {/* Category and likes */}
-      <div className="mb-3 flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <span className="rounded-full bg-white/10 p-1.5 backdrop-blur-sm">
-            {icon}
-          </span>
-          <span className="text-sm font-medium text-white/80">{category}</span>
-        </div>
-        <div className="flex items-center gap-1 text-sm text-white/60">
-          <span>❤️</span>
-          <span>{likes}</span>
-        </div>
-      </div>
-
-      {/* Title and description */}
-      <div className="flex-1">
-        <h3 className="mb-2 line-clamp-1 text-lg font-bold text-white">
-          {title}
-        </h3>
-        <p className="line-clamp-2 text-sm text-white/70">{description}</p>
-      </div>
-
-      {/* Author and rarity */}
-      <div className="mt-3 flex items-center justify-between">
-        <span className="text-xs text-white/50">{author}</span>
-        <span
-          className={cn(
-            "rounded-full bg-gradient-to-r px-2 py-0.5 text-xs font-medium text-white",
-            rarityColors[rarity],
-          )}
-        >
-          {rarity.charAt(0).toUpperCase() + rarity.slice(1)}
-        </span>
-      </div>
     </motion.div>
   );
 }
@@ -199,34 +177,40 @@ export default function DisplayCards({ cards }: DisplayCardsProps) {
 
   const defaultCards: DisplayCardProps[] = [
     {
-      icon: <Code2 className="h-4 w-4 text-blue-400" />,
+      icon: Code2,
       title: "Debug React Hooks Expert",
       description:
         "Analyze and fix complex React hooks issues with detailed explanations and best practices",
       author: "@alexdev",
       category: "Programming",
+      categoryColor: "blue",
       rarity: "gold",
       likes: 156,
+      gradient: "from-blue-500 to-cyan-600",
     },
     {
-      icon: <Palette className="h-4 w-4 text-purple-400" />,
+      icon: Palette,
       title: "Fantasy World Builder",
       description:
         "Create rich, detailed fantasy worlds complete with lore, magic systems, and unique cultures",
       author: "@storywizard",
       category: "Creative",
+      categoryColor: "purple",
       rarity: "platinum",
       likes: 243,
+      gradient: "from-purple-500 to-pink-600",
     },
     {
-      icon: <BarChart3 className="h-4 w-4 text-green-400" />,
+      icon: BarChart3,
       title: "Data Viz Assistant",
       description:
         "Transform complex datasets into beautiful, insightful visualizations with code examples",
       author: "@datapro",
       category: "Analysis",
+      categoryColor: "emerald",
       rarity: "silver",
       likes: 89,
+      gradient: "from-emerald-500 to-teal-600",
     },
   ];
 

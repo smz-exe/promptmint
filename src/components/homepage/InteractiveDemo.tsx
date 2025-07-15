@@ -2,12 +2,23 @@
 
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Sparkles, Users, Heart, TrendingUp } from "lucide-react";
+import { Sparkles, Users, Heart, Code2, BarChart3 } from "lucide-react";
+import { PromptCard } from "~/components/ui/PromptCard";
 
 const categories = [
-  { id: "creative", label: "Creative", icon: Sparkles, color: "pink" },
-  { id: "programming", label: "Programming", icon: TrendingUp, color: "blue" },
-  { id: "analysis", label: "Analysis", icon: Users, color: "emerald" },
+  { id: "creative", label: "Creative", icon: Sparkles, color: "pink" as const },
+  {
+    id: "programming",
+    label: "Programming",
+    icon: Code2,
+    color: "blue" as const,
+  },
+  {
+    id: "analysis",
+    label: "Analysis",
+    icon: BarChart3,
+    color: "emerald" as const,
+  },
 ];
 
 const demoCards = {
@@ -159,52 +170,19 @@ export function InteractiveDemo() {
               className="relative"
               style={{ perspective: "1000px" }}
             >
-              <div
-                className={`relative h-96 w-80 rounded-2xl bg-gradient-to-br ${currentCard.gradient} rotate-3 transform p-6 shadow-2xl transition-transform duration-300 hover:rotate-0`}
-              >
-                {/* Glassmorphism overlay */}
-                <div className="absolute inset-0 rounded-2xl bg-white/10 backdrop-blur-sm" />
-
-                {/* Card content */}
-                <div className="relative z-10 flex h-full flex-col text-white">
-                  <div className="flex-1">
-                    <div className="mb-4 flex items-center justify-between">
-                      <div className="rounded-full bg-white/20 px-3 py-1 text-xs font-medium">
-                        {categories.find((c) => c.id === activeCategory)?.label}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Heart className="h-4 w-4 fill-current" />
-                        <span className="text-sm">{currentCard.likes}</span>
-                      </div>
-                    </div>
-
-                    <h3 className="mb-2 text-xl font-bold">
-                      {currentCard.title}
-                    </h3>
-                    <p className="mb-4 text-sm text-white/80">
-                      {currentCard.description}
-                    </p>
-
-                    <div className="rounded-lg bg-white/10 p-3 backdrop-blur-sm">
-                      <div className="mb-1 text-xs text-white/60">
-                        Prompt Preview
-                      </div>
-                      <div className="font-mono text-sm">
-                        {currentCard.prompt}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center justify-between border-t border-white/20 pt-4">
-                    <div className="text-xs text-white/60">@ai_creator</div>
-                    <div className="text-xs text-white/60">2 hours ago</div>
-                  </div>
-                </div>
-
-                {/* Floating elements */}
-                <div className="absolute -top-2 -right-2 h-4 w-4 animate-pulse rounded-full bg-yellow-400" />
-                <div className="absolute -bottom-2 -left-2 h-3 w-3 animate-bounce rounded-full bg-pink-400" />
-              </div>
+              <PromptCard
+                title={currentCard.title}
+                description={currentCard.description}
+                author="@ai_creator"
+                likes={currentCard.likes}
+                category={categories.find((c) => c.id === activeCategory)!}
+                gradient={currentCard.gradient}
+                prompt={currentCard.prompt}
+                timestamp="2 hours ago"
+                showPromptPreview={true}
+                floatingElements={true}
+                className="rotate-3 transform transition-transform duration-300 hover:rotate-0"
+              />
             </motion.div>
           </div>
         </div>
