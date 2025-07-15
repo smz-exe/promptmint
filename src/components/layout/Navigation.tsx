@@ -105,7 +105,7 @@ export function Navigation() {
                         className="flex items-center gap-2"
                       >
                         <Image
-                          src={currentUser?.avatarUrl ?? "/default-avatar.png"}
+                          src={currentUser?.avatarUrl ?? "/default-avatar.svg"}
                           alt={
                             currentUser?.displayName ??
                             currentUser?.username ??

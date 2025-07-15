@@ -101,7 +101,7 @@ export function CommentList({ promptCardId }: CommentListProps) {
       {comments.map((comment) => (
         <div key={comment.id} className="flex gap-3">
           <Image
-            src={comment.user.avatarUrl ?? "/default-avatar.png"}
+            src={comment.user.avatarUrl ?? "/default-avatar.svg"}
             alt={comment.user.displayName}
             width={32}
             height={32}

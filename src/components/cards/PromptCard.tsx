@@ -207,7 +207,7 @@ export function PromptCard({
         getCategoryGradient(),
         getCardBorderClass(),
         getCardGlowClass(),
-        "border-2 backdrop-blur-sm shadow-2xl",
+        "border-2 shadow-2xl backdrop-blur-sm",
       )}
       onClick={onClick}
     >
@@ -266,7 +266,7 @@ export function PromptCard({
         <div className="mb-4 flex flex-shrink-0 items-center justify-between border-t border-white/20 pt-4">
           <div className="flex items-center gap-2 text-xs text-white/60">
             <Image
-              src={card.author.avatarUrl ?? "/default-avatar.png"}
+              src={card.author.avatarUrl ?? "/default-avatar.svg"}
               alt={card.author.displayName}
               width={18}
               height={18}
@@ -307,7 +307,7 @@ export function PromptCard({
             <Button
               variant="ghost"
               size="sm"
-              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:text-white hover:bg-white/10"
+              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:bg-white/10 hover:text-white"
               onClick={(e) => e.stopPropagation()}
             >
               <MessageCircle className="h-4 w-4" />
@@ -318,7 +318,7 @@ export function PromptCard({
               <Button
                 variant="ghost"
                 size="sm"
-                className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:text-white hover:bg-white/10"
+                className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:bg-white/10 hover:text-white"
                 onClick={(e) => e.stopPropagation()}
               >
                 <GitBranch className="h-4 w-4" />
@@ -332,7 +332,7 @@ export function PromptCard({
               variant="ghost"
               size="sm"
               onClick={handleCopy}
-              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:text-white hover:bg-white/10"
+              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:bg-white/10 hover:text-white"
             >
               <Copy className="h-4 w-4" />
             </Button>
@@ -344,7 +344,7 @@ export function PromptCard({
                 e.stopPropagation();
                 if (onClick) onClick();
               }}
-              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:text-white hover:bg-white/10"
+              className="flex h-8 items-center gap-1 px-2 text-xs text-white/60 hover:bg-white/10 hover:text-white"
             >
               <ExternalLink className="h-4 w-4" />
             </Button>

@@ -124,7 +124,7 @@ export default function ProfilePage() {
         <div className="mb-8">
           <div className="mb-6 flex items-start gap-6">
             <Image
-              src={profileData.avatarUrl ?? "/default-avatar.png"}
+              src={profileData.avatarUrl ?? "/default-avatar.svg"}
               alt={profileData.displayName ?? profileData.username}
               width={96}
               height={96}

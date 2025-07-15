@@ -208,7 +208,7 @@ export default function CardDetailPage() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Image
-                  src={card.author.avatarUrl ?? "/default-avatar.png"}
+                  src={card.author.avatarUrl ?? "/default-avatar.svg"}
                   alt={card.author.displayName}
                   width={32}
                   height={32}

@@ -65,7 +65,7 @@ export function ForkHistory({
             </h4>
             <div className="bg-muted/50 flex items-center gap-3 rounded-lg p-3">
               <Image
-                src={parentPrompt.author.avatarUrl ?? "/default-avatar.png"}
+                src={parentPrompt.author.avatarUrl ?? "/default-avatar.svg"}
                 alt={parentPrompt.author.displayName}
                 width={32}
                 height={32}
@@ -151,7 +151,7 @@ export function ForkHistory({
                         className="bg-muted/30 flex items-center gap-3 rounded-lg p-3"
                       >
                         <Image
-                          src={fork.author.avatarUrl ?? "/default-avatar.png"}
+                          src={fork.author.avatarUrl ?? "/default-avatar.svg"}
                           alt={fork.author.displayName}
                           width={32}
                           height={32}

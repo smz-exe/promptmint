@@ -5,7 +5,7 @@ export function PromptCardSkeleton() {
     <div className="relative mx-auto h-[360px] w-full max-w-md rounded-xl border-2 border-gray-200/50 bg-gradient-to-br from-slate-500 to-gray-600 p-6 shadow-2xl">
       {/* Glassmorphism overlay */}
       <div className="absolute inset-0 rounded-xl bg-white/10 backdrop-blur-sm" />
-      
+
       {/* Header with rarity and category */}
       <div className="relative z-10 mb-4 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -20,7 +20,7 @@ export function PromptCardSkeleton() {
       </div>
 
       {/* Title */}
-      <div className="relative z-10 space-y-3 mb-4">
+      <div className="relative z-10 mb-4 space-y-3">
         <Skeleton className="h-6 w-4/5 bg-white/20" />
         <Skeleton className="h-6 w-3/4 bg-white/20" />
       </div>
