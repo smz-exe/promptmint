@@ -100,10 +100,10 @@ export function FeedGrid({ filter, orderBy = "latest" }: FeedGridProps) {
 
   return (
     <div className="space-y-8">
-      {/* Masonry Grid Layout */}
-      <div className="columns-1 gap-6 space-y-6 md:columns-2 lg:columns-3 xl:columns-4">
+      {/* Improved Grid Layout with better spacing */}
+      <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
         {allCards.map((card) => (
-          <div key={card.id} className="mb-6 break-inside-avoid">
+          <div key={card.id} className="flex justify-center">
             <PromptCard card={card} onClick={() => handleCardClick(card.id)} />
           </div>
         ))}
