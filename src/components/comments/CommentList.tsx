@@ -100,13 +100,15 @@ export function CommentList({ promptCardId }: CommentListProps) {
     <div className="space-y-4">
       {comments.map((comment) => (
         <div key={comment.id} className="flex gap-3">
-          <Image
-            src={comment.user.avatarUrl ?? "/default-avatar.svg"}
-            alt={comment.user.displayName}
-            width={32}
-            height={32}
-            className="rounded-full"
-          />
+          <div className="h-10 w-10 flex-shrink-0">
+            <Image
+              src={comment.user.avatarUrl ?? "/default-avatar.svg"}
+              alt={comment.user.displayName}
+              width={40}
+              height={40}
+              className="h-full w-full rounded-full object-cover object-center shadow-sm ring-1 ring-slate-200 dark:ring-slate-700"
+            />
+          </div>
           <div className="flex-1">
             <div className="mb-1 flex items-center gap-2">
               <Link

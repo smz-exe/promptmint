@@ -11,26 +11,30 @@ const rarityConfig = {
   BRONZE: {
     label: "Bronze",
     className:
-      "bg-gradient-to-r from-amber-600 to-amber-800 text-white border-amber-500",
-    glowClass: "shadow-amber-500/20",
+      "bg-gradient-to-r from-amber-600 to-amber-800 text-white border-amber-500 hover:from-amber-500 hover:to-amber-700",
+    glowClass: "shadow-lg shadow-amber-500/30 hover:shadow-amber-500/50",
+    ringClass: "ring-2 ring-amber-500/20",
   },
   SILVER: {
     label: "Silver",
     className:
-      "bg-gradient-to-r from-slate-400 to-slate-600 text-white border-slate-300",
-    glowClass: "shadow-slate-400/30",
+      "bg-gradient-to-r from-slate-400 to-slate-600 text-white border-slate-300 hover:from-slate-300 hover:to-slate-500",
+    glowClass: "shadow-lg shadow-slate-400/40 hover:shadow-slate-400/60",
+    ringClass: "ring-2 ring-slate-400/20",
   },
   GOLD: {
     label: "Gold",
     className:
-      "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white border-yellow-300",
-    glowClass: "shadow-yellow-400/40",
+      "bg-gradient-to-r from-yellow-400 to-yellow-600 text-white border-yellow-300 hover:from-yellow-300 hover:to-yellow-500",
+    glowClass: "shadow-lg shadow-yellow-400/50 hover:shadow-yellow-400/70",
+    ringClass: "ring-2 ring-yellow-400/30",
   },
   PLATINUM: {
     label: "Platinum",
     className:
-      "bg-gradient-to-r from-purple-400 to-purple-600 text-white border-purple-300",
-    glowClass: "shadow-purple-400/50",
+      "bg-gradient-to-r from-purple-400 to-purple-600 text-white border-purple-300 hover:from-purple-300 hover:to-purple-500",
+    glowClass: "shadow-lg shadow-purple-400/60 hover:shadow-purple-400/80",
+    ringClass: "ring-2 ring-purple-400/30",
   },
 } as const;
 
@@ -42,8 +46,8 @@ export function RarityBadge({
   const config = rarityConfig[rarity];
 
   const sizeClasses = {
-    sm: "px-1.5 py-0.5 text-xs",
-    md: "px-2 py-1 text-xs",
+    sm: "px-2 py-1 text-xs",
+    md: "px-3 py-1.5 text-sm",
   };
 
   const dotSizeClasses = {
@@ -54,12 +58,19 @@ export function RarityBadge({
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border font-semibold shadow-lg",
+        "inline-flex transform items-center rounded-full border font-semibold transition-all duration-300 hover:scale-105",
         sizeClasses[size],
         config.className,
         config.glowClass,
+        config.ringClass,
+        "animate-pulse",
         className,
       )}
+      style={{
+        animationDuration:
+          rarity === "PLATINUM" ? "1s" : rarity === "GOLD" ? "1.5s" : "2s",
+        animationIterationCount: "infinite",
+      }}
     >
       <div
         className={cn(

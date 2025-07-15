@@ -148,21 +148,21 @@ export default function CardDetailPage() {
   const getCardBorderClass = () => {
     switch (card.rarity) {
       case "BRONZE":
-        return "border-amber-500/30";
+        return "border-amber-500/40 shadow-amber-500/20";
       case "SILVER":
-        return "border-slate-400/30";
+        return "border-slate-400/40 shadow-slate-400/20";
       case "GOLD":
-        return "border-yellow-400/30";
+        return "border-yellow-400/40 shadow-yellow-400/20";
       case "PLATINUM":
-        return "border-purple-400/30";
+        return "border-purple-400/40 shadow-purple-400/20";
       default:
-        return "border-gray-300/30";
+        return "border-gray-300/40 shadow-gray-300/20";
     }
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="mx-auto max-w-4xl">
+      <div className="mx-auto max-w-4xl space-y-8">
         {/* Breadcrumb Navigation */}
         <SmartBreadcrumb
           customItems={[
@@ -184,21 +184,25 @@ export default function CardDetailPage() {
         </Button>
 
         {/* Main Card */}
-        <Card className={`${getCardBorderClass()} mb-8`}>
+        <Card
+          className={`${getCardBorderClass()} transform bg-gradient-to-br from-white to-slate-50 shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl dark:from-slate-900 dark:to-slate-800`}
+        >
           <CardHeader className="pb-4">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <div className="mb-3 flex flex-wrap items-center gap-2">
-                  <RarityBadge rarity={card.rarity} />
-                  <span className="text-muted-foreground bg-secondary rounded px-2 py-1 text-xs">
+                <div className="mb-4 flex flex-wrap items-center gap-3">
+                  <RarityBadge rarity={card.rarity} size="md" />
+                  <span className="rounded-full bg-gradient-to-r from-slate-100 to-slate-200 px-3 py-1.5 text-sm font-medium text-slate-700 shadow-sm dark:from-slate-800 dark:to-slate-700 dark:text-slate-300">
                     {card.category.name}
                   </span>
-                  <span className="bg-primary/10 text-primary rounded-full px-2 py-1 text-xs">
+                  <span className="rounded-full border border-blue-200 bg-gradient-to-r from-blue-100 to-blue-200 px-3 py-1.5 text-sm font-medium text-blue-700 shadow-sm dark:border-blue-700 dark:from-blue-950/50 dark:to-blue-900/50 dark:text-blue-300">
                     {card.aiModel.displayName}
                   </span>
                 </div>
-                <h1 className="mb-2 text-2xl font-bold">{card.title}</h1>
-                <p className="text-muted-foreground mb-4 text-base">
+                <h1 className="mb-3 bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-4xl font-bold text-transparent dark:from-gray-100 dark:to-gray-400">
+                  {card.title}
+                </h1>
+                <p className="text-muted-foreground mb-6 text-lg leading-relaxed">
                   {card.description}
                 </p>
               </div>
@@ -206,23 +210,29 @@ export default function CardDetailPage() {
 
             {/* Author and Date */}
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <Image
-                  src={card.author.avatarUrl ?? "/default-avatar.svg"}
-                  alt={card.author.displayName}
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                />
+              <div className="flex items-center gap-3">
+                <div className="relative">
+                  <Image
+                    src={card.author.avatarUrl ?? "/default-avatar.svg"}
+                    alt={card.author.displayName}
+                    width={48}
+                    height={48}
+                    className="rounded-full shadow-md ring-2 ring-slate-200 dark:ring-slate-700"
+                  />
+                  <div className="absolute -right-1 -bottom-1 h-4 w-4 rounded-full border-2 border-white bg-green-500 shadow-sm dark:border-slate-900"></div>
+                </div>
                 <div>
                   <Link
                     href={`/profile/${card.author.username}`}
-                    className="font-medium hover:underline"
+                    className="text-lg font-semibold text-slate-900 transition-colors hover:text-blue-600 hover:underline dark:text-slate-100 dark:hover:text-blue-400"
                   >
                     {card.author.displayName}
                   </Link>
-                  <p className="text-muted-foreground text-sm">
-                    {formatDateSmart(new Date(card.createdAt), "card")}
+                  <p className="text-muted-foreground flex items-center gap-1 text-sm">
+                    <span>Created</span>
+                    <span className="font-medium">
+                      {formatDateSmart(new Date(card.createdAt), "card")}
+                    </span>
                   </p>
                 </div>
               </div>
@@ -230,23 +240,33 @@ export default function CardDetailPage() {
 
             {/* Fork Information */}
             {card.parentPrompt && (
-              <div className="bg-muted/50 mt-4 rounded-lg p-3">
-                <div className="text-muted-foreground flex items-center gap-2 text-sm">
-                  <GitBranch className="h-4 w-4" />
-                  <span>Forked from</span>
-                  <Link
-                    href={`/cards/${card.parentPrompt.id}`}
-                    className="font-medium hover:underline"
-                  >
-                    {card.parentPrompt.title}
-                  </Link>
-                  <span>by</span>
-                  <Link
-                    href={`/profile/${card.parentPrompt.author.username}`}
-                    className="font-medium hover:underline"
-                  >
-                    {card.parentPrompt.author.displayName}
-                  </Link>
+              <div className="mt-6 rounded-xl border border-green-200 bg-gradient-to-r from-green-50 to-emerald-50 p-4 shadow-sm dark:border-green-800 dark:from-green-950/30 dark:to-emerald-950/30">
+                <div className="flex items-center gap-3">
+                  <div className="rounded-full bg-green-100 p-2 dark:bg-green-900/50">
+                    <GitBranch className="h-5 w-5 text-green-600 dark:text-green-400" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="mb-1 text-sm font-medium text-green-700 dark:text-green-300">
+                      Forked from
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Link
+                        href={`/cards/${card.parentPrompt.id}`}
+                        className="font-semibold text-green-800 transition-colors hover:text-green-600 hover:underline dark:text-green-200 dark:hover:text-green-100"
+                      >
+                        {card.parentPrompt.title}
+                      </Link>
+                      <span className="text-green-600 dark:text-green-400">
+                        by
+                      </span>
+                      <Link
+                        href={`/profile/${card.parentPrompt.author.username}`}
+                        className="font-medium text-green-700 transition-colors hover:text-green-600 hover:underline dark:text-green-300 dark:hover:text-green-200"
+                      >
+                        {card.parentPrompt.author.displayName}
+                      </Link>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -254,102 +274,115 @@ export default function CardDetailPage() {
 
           <CardContent>
             {/* Prompt Text */}
-            <div className="mb-6">
-              <h3 className="mb-3 text-lg font-semibold">Prompt</h3>
-              <div className="bg-muted/50 rounded-lg p-4">
-                <pre className="text-foreground/90 font-mono text-sm whitespace-pre-wrap">
+            <div className="mb-8">
+              <h3 className="mb-4 flex items-center gap-2 text-xl font-semibold">
+                <span className="inline-block h-6 w-1 rounded-full bg-gradient-to-b from-blue-500 to-purple-500"></span>
+                Prompt
+              </h3>
+              <div className="rounded-xl border border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 p-6 shadow-inner dark:border-slate-700 dark:from-slate-900 dark:to-slate-800">
+                <pre className="text-foreground/90 font-mono text-sm leading-relaxed whitespace-pre-wrap">
                   {card.promptText}
                 </pre>
               </div>
             </div>
 
-            {/* Actions */}
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-4">
+            {/* Statistics */}
+            <div className="mb-6 flex items-center gap-6">
+              <div className="flex items-center gap-2 rounded-full bg-red-50 px-3 py-2 dark:bg-red-950/30">
                 <Button
                   variant="ghost"
                   size="sm"
                   onClick={handleLike}
                   disabled={isLikeLoading}
-                  className={`flex items-center gap-2 ${
+                  className={`flex h-auto items-center gap-2 p-0 hover:bg-transparent ${
                     isLiked
                       ? "text-red-500 hover:text-red-600"
-                      : "text-muted-foreground"
+                      : "text-red-400 hover:text-red-500"
                   }`}
                 >
                   <Heart
-                    className={`h-4 w-4 ${isLiked ? "fill-current" : ""}`}
+                    className={`h-5 w-5 transition-all duration-200 ${isLiked ? "scale-110 fill-current" : "hover:scale-110"}`}
                   />
-                  {likesCount}
+                  <span className="font-semibold">{likesCount}</span>
                 </Button>
+              </div>
 
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-muted-foreground flex items-center gap-2"
-                >
-                  <MessageCircle className="h-4 w-4" />
+              <div className="flex items-center gap-2 rounded-full bg-blue-50 px-3 py-2 dark:bg-blue-950/30">
+                <MessageCircle className="h-5 w-5 text-blue-500" />
+                <span className="font-semibold text-blue-600 dark:text-blue-400">
                   {card.commentCount}
-                </Button>
+                </span>
+                <span className="text-sm text-blue-500">Comments</span>
+              </div>
 
-                {card.forkCount > 0 && (
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    className="text-muted-foreground flex items-center gap-2"
-                  >
-                    <GitBranch className="h-4 w-4" />
+              {card.forkCount > 0 && (
+                <div className="flex items-center gap-2 rounded-full bg-green-50 px-3 py-2 dark:bg-green-950/30">
+                  <GitBranch className="h-5 w-5 text-green-500" />
+                  <span className="font-semibold text-green-600 dark:text-green-400">
                     {card.forkCount}
-                  </Button>
-                )}
-              </div>
+                  </span>
+                  <span className="text-sm text-green-500">Forks</span>
+                </div>
+              )}
+            </div>
 
-              <div className="flex items-center gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleCopy}
-                  className="flex items-center gap-2"
-                >
-                  <Copy className="h-4 w-4" />
-                  Copy
-                </Button>
+            {/* Actions */}
+            <div className="flex flex-wrap items-center gap-3">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleCopy}
+                className="flex items-center gap-2 border-slate-200 bg-gradient-to-r from-slate-50 to-slate-100 shadow-sm transition-all duration-200 hover:scale-105 hover:from-slate-100 hover:to-slate-200 hover:shadow-md dark:border-slate-600 dark:from-slate-800 dark:to-slate-700 dark:hover:from-slate-700 dark:hover:to-slate-600"
+              >
+                <Copy className="h-4 w-4" />
+                Copy Prompt
+              </Button>
 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleShare}
-                  className="flex items-center gap-2"
-                >
-                  <Share2 className="h-4 w-4" />
-                  Share
-                </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleShare}
+                className="flex items-center gap-2 border-blue-200 bg-gradient-to-r from-blue-50 to-blue-100 text-blue-700 shadow-sm transition-all duration-200 hover:scale-105 hover:from-blue-100 hover:to-blue-200 hover:shadow-md dark:border-blue-700 dark:from-blue-950/50 dark:to-blue-900/50 dark:text-blue-300 dark:hover:from-blue-900/70 dark:hover:to-blue-800/70"
+              >
+                <Share2 className="h-4 w-4" />
+                Share
+              </Button>
 
-                {user && (
-                  <ErrorBoundary level="component">
-                    <ForkButton card={card} />
-                  </ErrorBoundary>
-                )}
+              {user && (
+                <ErrorBoundary level="component">
+                  <ForkButton card={card} />
+                </ErrorBoundary>
+              )}
 
-                <ReportDialog promptCardId={cardId} />
-              </div>
+              <ReportDialog promptCardId={cardId} />
             </div>
           </CardContent>
         </Card>
 
         {/* Fork History */}
-        <ErrorBoundary level="component">
-          <ForkHistory
-            cardId={cardId}
-            parentPrompt={card.parentPrompt}
-            forkCount={card.forkCount}
-          />
-        </ErrorBoundary>
+        <Card className="mb-8 border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 dark:border-slate-700 dark:from-slate-900 dark:to-slate-800">
+          <CardHeader>
+            <h3 className="flex items-center gap-2 text-lg font-semibold">
+              <GitBranch className="h-5 w-5 text-green-500" />
+              Fork History
+            </h3>
+          </CardHeader>
+          <CardContent>
+            <ErrorBoundary level="component">
+              <ForkHistory
+                cardId={cardId}
+                parentPrompt={card.parentPrompt}
+                forkCount={card.forkCount}
+              />
+            </ErrorBoundary>
+          </CardContent>
+        </Card>
 
         {/* Comments Section */}
-        <Card>
+        <Card className="border-slate-200 bg-gradient-to-br from-slate-50 to-slate-100 dark:border-slate-700 dark:from-slate-900 dark:to-slate-800">
           <CardHeader>
-            <h3 className="text-lg font-semibold">
+            <h3 className="flex items-center gap-2 text-lg font-semibold">
+              <MessageCircle className="h-5 w-5 text-blue-500" />
               Comments ({card.commentCount})
             </h3>
           </CardHeader>
