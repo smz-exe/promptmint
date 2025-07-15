@@ -10,8 +10,9 @@ import { Navigation } from "~/components/layout/Navigation";
 import { ErrorBoundary } from "~/components/error/ErrorBoundary";
 
 export const metadata: Metadata = {
-  title: "AI Prompt Trading Cards",
-  description: "Share and discover AI prompts as beautiful trading cards",
+  title: "PromptMint - Mint Your Genius",
+  description:
+    "Create, collect, and trade AI prompt cards on PromptMint. Join thousands minting their best prompts into beautiful digital collectibles.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 

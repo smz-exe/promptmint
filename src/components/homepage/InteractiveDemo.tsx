@@ -35,8 +35,8 @@ const demoCards = {
 };
 
 const stats = [
-  { label: "Active Creators", value: "12.5K", icon: Users },
-  { label: "Prompts Shared", value: "47.2K", icon: Sparkles },
+  { label: "Active Minters", value: "12.5K", icon: Users },
+  { label: "Cards Minted", value: "47.2K", icon: Sparkles },
   { label: "Total Likes", value: "892K", icon: Heart },
 ];
 
@@ -55,9 +55,9 @@ export function InteractiveDemo() {
             transition={{ duration: 0.6 }}
             className="text-3xl font-bold text-gray-900 sm:text-4xl lg:text-5xl"
           >
-            See It In{" "}
+            See The{" "}
             <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
-              Action
+              Minting Process
             </span>
           </motion.h2>
           <motion.p
@@ -66,8 +66,8 @@ export function InteractiveDemo() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mx-auto mt-4 max-w-2xl text-lg text-gray-600"
           >
-            Explore different categories and see how prompts come to life as
-            beautiful trading cards
+            Watch how prompts transform into valuable digital cards across our
+            curated collections
           </motion.p>
         </div>
 

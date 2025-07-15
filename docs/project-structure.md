@@ -2,12 +2,12 @@
 
 ## Overview
 
-This document outlines the file and folder structure for the AI Prompt Trading Card Platform, built with Next.js 14+ (App Router), TypeScript, tRPC, Prisma, and Supabase.
+This document outlines the file and folder structure for PromptMint, built with Next.js 14+ (App Router), TypeScript, tRPC, Prisma, and Supabase.
 
 ## Root Directory Structure
 
 ```
-prompt-trading-cards/
+promptmint/
 ├── .env                     # Environment variables
 ├── .env.example             # Example environment variables
 ├── .eslintrc.json           # ESLint configuration
@@ -43,7 +43,7 @@ src/
 │   │   │   ├── [id]/
 │   │   │   │   └── page.tsx     # Individual card view
 │   │   │   └── create/
-│   │   │       └── page.tsx     # Create new card
+│   │   │       └── page.tsx     # Mint new card
 │   │   ├── profile/
 │   │   │   ├── [username]/
 │   │   │   │   └── page.tsx     # User profile
@@ -74,7 +74,7 @@ src/
 │   │   ├── FeedHeader.tsx
 │   │   └── InfiniteScrollFeed.tsx
 │   ├── forms/
-│   │   ├── PromptCardForm.tsx
+│   │   ├── PromptCardForm.tsx  # Mint/edit form
 │   │   ├── CommentForm.tsx
 │   │   └── ProfileEditForm.tsx
 │   ├── layout/

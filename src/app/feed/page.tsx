@@ -58,11 +58,10 @@ export default function FeedPage() {
           {/* Header */}
           <div className="mb-8 flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold tracking-tight">
-                AI Prompt Trading Cards
-              </h1>
+              <h1 className="text-3xl font-bold tracking-tight">Fresh Mints</h1>
               <p className="text-muted-foreground mt-2">
-                Discover and share amazing AI prompts with the community
+                Discover the latest prompt cards minted by the PromptMint
+                community
               </p>
             </div>
 
@@ -70,7 +69,7 @@ export default function FeedPage() {
               <Button asChild size="lg">
                 <Link href="/cards/create" className="flex items-center gap-2">
                   <Plus className="h-5 w-5" />
-                  Create Card
+                  Mint New Card
                 </Link>
               </Button>
             )}

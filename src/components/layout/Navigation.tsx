@@ -56,10 +56,10 @@ export function Navigation() {
           <div className="flex items-center">
             <Link href="/" className="flex items-center space-x-2">
               <div className="rounded-lg bg-gradient-to-r from-purple-600 to-pink-600 p-2">
-                <div className="text-lg font-bold text-white">PT</div>
+                <div className="text-lg font-bold text-white">PM</div>
               </div>
               <div className="hidden sm:block">
-                <h1 className="text-xl font-bold">Prompt Trading</h1>
+                <h1 className="text-xl font-bold">PromptMint</h1>
               </div>
             </Link>
           </div>
@@ -70,7 +70,7 @@ export function Navigation() {
               <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
               <Input
                 type="text"
-                placeholder="Search prompts..."
+                placeholder="Search minted cards..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pr-4 pl-10"
@@ -81,7 +81,7 @@ export function Navigation() {
           {/* Desktop Navigation */}
           <div className="hidden items-center space-x-4 md:flex">
             <Button variant="ghost" asChild>
-              <Link href="/feed">Browse</Link>
+              <Link href="/feed">Explore</Link>
             </Button>
 
             {user ? (
@@ -92,7 +92,7 @@ export function Navigation() {
                     className="flex items-center gap-2"
                   >
                     <Plus className="h-4 w-4" />
-                    Create Card
+                    Mint Card
                   </Link>
                 </Button>
 
@@ -185,7 +185,7 @@ export function Navigation() {
                 <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
                 <Input
                   type="text"
-                  placeholder="Search prompts..."
+                  placeholder="Search minted cards..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pr-4 pl-10"
@@ -197,7 +197,7 @@ export function Navigation() {
             <div className="space-y-2">
               <Button variant="ghost" className="w-full justify-start" asChild>
                 <Link href="/feed" onClick={() => setIsMobileMenuOpen(false)}>
-                  Browse
+                  Explore
                 </Link>
               </Button>
 
@@ -214,7 +214,7 @@ export function Navigation() {
                       className="flex items-center gap-2"
                     >
                       <Plus className="h-4 w-4" />
-                      Create Card
+                      Mint Card
                     </Link>
                   </Button>
                   <Button

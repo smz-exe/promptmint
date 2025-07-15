@@ -72,7 +72,7 @@ export function HeroSection() {
               >
                 <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm text-white backdrop-blur-sm">
                   <Sparkles className="h-4 w-4" />
-                  <span>47K+ Prompts Shared</span>
+                  <span>10K+ Cards Minted Daily</span>
                 </div>
               </motion.div>
 
@@ -81,30 +81,40 @@ export function HeroSection() {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
-                className="mb-6 text-4xl leading-tight font-bold text-white sm:text-5xl lg:text-6xl xl:text-7xl"
+                className="mb-4 text-4xl leading-tight font-bold text-white sm:text-5xl lg:text-6xl xl:text-7xl"
               >
-                <span className="block">Your AI Prompts,</span>
+                <span className="block">Mint Your Prompts,</span>
                 <span className="block bg-gradient-to-r from-pink-400 via-purple-400 to-cyan-400 bg-clip-text text-transparent">
-                  Reimagined
+                  Build Your Legacy
                 </span>
               </motion.h1>
+
+              {/* Tagline */}
+              <motion.p
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.3 }}
+                className="mb-6 text-xl font-medium text-white/90"
+              >
+                Where AI Prompts Become Collectibles
+              </motion.p>
 
               {/* Subtitle */}
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.4 }}
+                transition={{ duration: 0.8, delay: 0.5 }}
                 className="mb-10 max-w-xl text-lg text-white/80 sm:text-xl"
               >
-                Transform prompts into collectible trading cards. Share your
-                creativity with a vibrant community of AI enthusiasts.
+                Transform AI prompts into collectible cards. Every mint tells a
+                story, every collection builds your reputation.
               </motion.p>
 
               {/* CTA buttons */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.8, delay: 0.6 }}
+                transition={{ duration: 0.8, delay: 0.7 }}
                 className="flex flex-col gap-4 sm:flex-row"
               >
                 <Button
@@ -114,7 +124,7 @@ export function HeroSection() {
                 >
                   <Link href="/sign-up">
                     <span className="relative z-10 flex items-center gap-2">
-                      Start Creating
+                      Start Minting
                       <Zap className="h-5 w-5 transition-transform group-hover:rotate-12" />
                     </span>
                     <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-pink-500 opacity-0 transition-opacity group-hover:opacity-100" />
@@ -129,7 +139,7 @@ export function HeroSection() {
                 >
                   <Link href="/feed">
                     <span className="flex items-center gap-2">
-                      Explore Gallery
+                      Explore Collections
                       <Brain className="h-5 w-5" />
                     </span>
                   </Link>

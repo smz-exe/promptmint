@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document defines the tRPC API endpoints for the AI Prompt Trading Card Platform. All endpoints are type-safe and use tRPC's procedure system with Zod validation.
+This document defines the tRPC API endpoints for PromptMint. All endpoints are type-safe and use tRPC's procedure system with Zod validation.
 
 ## Router Structure
 
@@ -13,7 +13,7 @@ src/server/api/
 └── routers/
     ├── auth.ts      // Authentication endpoints
     ├── user.ts      // User profile management
-    ├── promptCard.ts // Prompt card CRUD operations
+    ├── promptCard.ts // Prompt card mint/CRUD operations
     ├── like.ts      // Like/unlike functionality
     ├── comment.ts   // Comment management
     └── report.ts    // Report functionality
@@ -172,7 +172,7 @@ Get user's favorite (liked) cards
 
 #### `promptCard.create`
 
-Create a new prompt card (Protected)
+Mint a new prompt card (Protected)
 
 ```typescript
 // Input
@@ -202,7 +202,7 @@ Create a new prompt card (Protected)
   }
 }
 
-// Rate limit: 5 per day per user
+// Rate limit: 5 mints per day per user
 ```
 
 #### `promptCard.update`
@@ -519,7 +519,7 @@ Common error scenarios:
 
 | Endpoint | Limit |
 |----------|-------|
-| `promptCard.create` | 5 per day |
+| `promptCard.create` | 5 mints per day |
 | `comment.create` | 50 per hour |
 | `like.toggle` | 100 per hour |
 | `report.create` | 10 per day |

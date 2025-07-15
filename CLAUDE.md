@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-This is a T3 Stack application for an AI Prompt Trading Card Platform - a web app where users can share AI prompts in a visual trading card format. The project is built with Next.js 15 (App Router), TypeScript, tRPC, Prisma, Tailwind CSS, and uses Supabase for authentication and database.
+This is a T3 Stack application for PromptMint - a web app where users can mint, collect, and trade AI prompts as beautiful digital trading cards. The project is built with Next.js 15 (App Router), TypeScript, tRPC, Prisma, Tailwind CSS, and uses Supabase for authentication and database.
 
 **Current Status**: Phase 6 partially completed - Fork functionality, settings page, and error boundaries implemented. Ready for advanced search and report system.
 

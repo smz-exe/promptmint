@@ -1,8 +1,8 @@
-# AI Prompt Trading Card Platform - Development Progress
+# PromptMint - Development Progress
 
 ## Project Overview
 
-AI Prompt Trading Card Platform built with T3 Stack (Next.js, TypeScript, tRPC, Prisma, Supabase)
+PromptMint built with T3 Stack (Next.js, TypeScript, tRPC, Prisma, Supabase)
 
 **Date**: January 2025  
 **Status**: Phase 8 Complete - Modern Landing Page Design & User Experience Enhancement ✅  
@@ -22,6 +22,7 @@ AI Prompt Trading Card Platform built with T3 Stack (Next.js, TypeScript, tRPC, 
   - Sign up/in/out with email validation
   - Protected routes and middleware
   - Auth context and hooks
+  - Access control for minting features
 - [x] **Environment Setup**: Complete configuration
 
 ### ✅ Phase 2: API & Backend (Week 2)

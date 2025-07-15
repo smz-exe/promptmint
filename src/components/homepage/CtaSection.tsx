@@ -8,22 +8,22 @@ import Link from "next/link";
 const steps = [
   {
     number: "01",
-    title: "Sign Up",
-    description: "Create your free account in seconds",
+    title: "Join PromptMint",
+    description: "Create your minter account in seconds",
     icon: Users,
     color: "from-blue-500 to-cyan-500",
   },
   {
     number: "02",
-    title: "Create",
-    description: "Design your first prompt card",
+    title: "Mint Cards",
+    description: "Transform prompts into collectibles",
     icon: Sparkles,
     color: "from-purple-500 to-pink-500",
   },
   {
     number: "03",
-    title: "Share",
-    description: "Connect with the community",
+    title: "Build Collections",
+    description: "Share and trade with the community",
     icon: Zap,
     color: "from-emerald-500 to-teal-500",
   },
@@ -91,7 +91,7 @@ export function CtaSection() {
             transition={{ duration: 0.6 }}
             className="text-3xl font-bold text-white sm:text-4xl lg:text-5xl"
           >
-            Start Creating in{" "}
+            Start Minting in{" "}
             <span className="bg-gradient-to-r from-pink-400 to-cyan-400 bg-clip-text text-transparent">
               3 Simple Steps
             </span>
@@ -102,8 +102,8 @@ export function CtaSection() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mx-auto mt-4 max-w-2xl text-lg text-white/80"
           >
-            Join thousands of creators who are already transforming their AI
-            prompts into beautiful trading cards
+            Join the PromptMint community where creators mint their brilliance
+            daily
           </motion.p>
         </div>
 
@@ -176,7 +176,7 @@ export function CtaSection() {
             >
               <Link href="/sign-up">
                 <span className="relative z-10 flex items-center gap-2">
-                  Start Creating Free
+                  Mint Your First Card Free
                   <ArrowRight className="h-5 w-5 transition-transform group-hover:translate-x-1" />
                 </span>
                 <div className="absolute inset-0 bg-gradient-to-r from-violet-600 to-pink-500 opacity-0 transition-opacity group-hover:opacity-100" />

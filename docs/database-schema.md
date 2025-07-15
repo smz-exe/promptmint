@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document defines the database schema for the AI Prompt Trading Card Platform using Prisma ORM with Supabase PostgreSQL.
+This document defines the database schema for PromptMint using Prisma ORM with Supabase PostgreSQL.
 
 ## Entity Relationship Diagram
 
@@ -302,8 +302,8 @@ FOR UPDATE USING (auth.uid() = id);
 CREATE POLICY "Public cards are viewable by everyone" ON prompt_cards
 FOR SELECT USING (is_deleted = false);
 
--- Authenticated users can create cards
-CREATE POLICY "Authenticated users can create cards" ON prompt_cards
+-- Authenticated users can mint cards
+CREATE POLICY "Authenticated users can mint cards" ON prompt_cards
 FOR INSERT WITH CHECK (auth.uid() = author_id);
 
 -- Users can update own cards
@@ -409,6 +409,7 @@ FOR EACH ROW EXECUTE FUNCTION update_card_rarity();
    - Execute seed data for categories and AI models
    - Apply RLS policies via Supabase dashboard
    - Create database triggers
+   - Initialize PromptMint platform data
 
 2. **Future Considerations**
    - Add full-text search indexes for prompt content
