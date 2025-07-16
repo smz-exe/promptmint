@@ -150,21 +150,6 @@ export function PromptCard({
     }
   };
 
-  const getCardBackgroundClass = () => {
-    switch (card.rarity) {
-      case "BRONZE":
-        return "bg-gradient-to-br from-amber-600 to-orange-600";
-      case "SILVER":
-        return "bg-gradient-to-br from-slate-600 to-gray-600";
-      case "GOLD":
-        return "bg-gradient-to-br from-yellow-500 to-amber-500";
-      case "PLATINUM":
-        return "bg-gradient-to-br from-purple-600 to-pink-600";
-      default:
-        return "bg-gradient-to-br from-slate-700 to-slate-800";
-    }
-  };
-
   const getCategoryGradient = () => {
     const gradientMap: Record<string, string> = {
       Programming: "from-blue-500 to-cyan-600",
@@ -175,21 +160,6 @@ export function PromptCard({
       Others: "from-slate-500 to-gray-600",
     };
     return gradientMap[card.category.name] ?? "from-slate-500 to-gray-600";
-  };
-
-  const getCategoryColor = () => {
-    const colorMap: Record<string, string> = {
-      Programming: "bg-blue-100 text-blue-700 border-blue-200",
-      Writing: "bg-green-100 text-green-700 border-green-200",
-      "Analysis & Research": "bg-purple-100 text-purple-700 border-purple-200",
-      "Learning & Education": "bg-orange-100 text-orange-700 border-orange-200",
-      "Creative & Art": "bg-pink-100 text-pink-700 border-pink-200",
-      Others: "bg-gray-100 text-gray-700 border-gray-200",
-    };
-    return (
-      colorMap[card.category.name] ??
-      "bg-gray-100 text-gray-700 border-gray-200"
-    );
   };
 
   const promptPreview = showFullPrompt
