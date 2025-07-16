@@ -564,7 +564,12 @@ Make the proposal client-focused, results-oriented, and professionally formatted
   ];
 
   for (const promptCard of samplePromptCards) {
-    if (promptCard.categoryId && promptCard.aiModelId && promptCard.categoryId !== "" && promptCard.aiModelId !== "") {
+    if (
+      promptCard.categoryId &&
+      promptCard.aiModelId &&
+      promptCard.categoryId !== "" &&
+      promptCard.aiModelId !== ""
+    ) {
       await prisma.promptCard.create({
         data: promptCard,
       });
